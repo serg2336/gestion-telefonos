@@ -11,7 +11,11 @@ class Dispositivo extends Model
         return $this->hasMany(Asignacion::class);
     }
 
-    public function asignacionActiva() {
-        return $this->hasOne(Asignacion::class)->where('estado', 'activo');
-    }
+public function asignacionActiva()
+{
+    return $this->hasOne(Asignacion::class)
+        ->where(function ($query) {
+            $query->where('estado', 'activo');
+        });
+}
 }
