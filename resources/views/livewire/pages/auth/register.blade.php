@@ -16,8 +16,9 @@ new #[Layout('layouts.guest')] class extends Component
     public string $password_confirmation = '';
 
     public function register()
-    {
-        // Validar (los nombres deben coincidir con las propiedades)
+  {
+       dd('Llegó al método register');  
+    // Validar (los nombres deben coincidir con las propiedades)
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
@@ -25,7 +26,7 @@ new #[Layout('layouts.guest')] class extends Component
         ]);
 
         // Asignar rol
-        
+        $validated['rol'] = 'usuario'; 
         $validated['password'] = Hash::make($validated['password']);
 
         // Crear usuario
@@ -35,7 +36,8 @@ new #[Layout('layouts.guest')] class extends Component
         Auth::login($user);
 
         // Redirigir a la raíz
-        return redirect()->to('/');
+        
+        $this->redirect('/', navigate: true);
     }
 };
 ?>

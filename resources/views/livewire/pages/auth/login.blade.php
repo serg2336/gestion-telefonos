@@ -9,9 +9,6 @@ new #[Layout('layouts.guest')] class extends Component
 {
     public LoginForm $form;
 
-    /**
-     * Handle an incoming authentication request.
-     */
     public function login(): void
     {
         $this->validate();
@@ -25,7 +22,7 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
-    <div>
+    <!-- Mostrar errores de validación -->
     @if ($errors->any())
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
             <ul>
@@ -36,11 +33,6 @@ new #[Layout('layouts.guest')] class extends Component
         </div>
     @endif
 
-    <!-- El resto del formulario de login -->
-    <form wire:submit="login">
-        <!-- ... -->
-    </form>
-</div>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
@@ -55,12 +47,7 @@ new #[Layout('layouts.guest')] class extends Component
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input wire:model="form.password" id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
+            <x-text-input wire:model="form.password" id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
             <x-input-error :messages="$errors->get('form.password')" class="mt-2" />
         </div>
 
