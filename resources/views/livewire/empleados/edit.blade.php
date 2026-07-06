@@ -1,33 +1,84 @@
-<div class="overflow-x-auto">
-    <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
-            <tr>
-                <!-- Siempre visibles -->
-                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Nombre</th>
-                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Apellido</th>
-                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
-                <!-- Ocultas en móviles, visibles en sm -->
-                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase hidden sm:table-cell">Teléfono</th>
-                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase hidden md:table-cell">Identificación</th>
-                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase hidden sm:table-cell">Departamento</th>
-                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Acciones</th>
-            </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-            @foreach ($empleados as $empleado)
-                <tr class="hover:bg-gray-50 transition">
-                    <td class="px-3 py-2 whitespace-nowrap text-sm">{{ $empleado->primer_nombre }}</td>
-                    <td class="px-3 py-2 whitespace-nowrap text-sm">{{ $empleado->apellido }}</td>
-                    <td class="px-3 py-2 whitespace-nowrap text-sm">{{ $empleado->email }}</td>
-                    <td class="px-3 py-2 whitespace-nowrap text-sm hidden sm:table-cell">{{ $empleado->telefono }}</td>
-                    <td class="px-3 py-2 whitespace-nowrap text-sm hidden md:table-cell">{{ $empleado->identificacion }}</td>
-                    <td class="px-3 py-2 whitespace-nowrap text-sm hidden sm:table-cell">{{ $empleado->departamento->nombre ?? 'Sin asignar' }}</td>
-                    <td class="px-3 py-2 whitespace-nowrap text-sm">
-                        <a href="{{ route('empleados.edit', $empleado->id) }}" class="text-blue-600 hover:text-blue-800">Editar</a>
-                        <button wire:click="delete({{ $empleado->id }})" wire:confirm="¿Eliminar?" class="text-red-600 hover:text-red-800 ml-2">Eliminar</button>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+<div class="py-8 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6">
+        <!-- Encabezado con botón Volver -->
+        <div class="flex items-center gap-4 mb-6 border-b pb-4">
+            <a href="{{ route('empleados.index') }}" 
+               class="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Volver al listado
+            </a>
+            <h1 class="text-2xl font-bold text-gray-800">Editar Empleado</h1>
+        </div>
+
+        <form wire:submit.prevent="update" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Primer Nombre -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Primer Nombre</label>
+                    <input type="text" wire:model="primer_nombre" 
+                           class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    @error('primer_nombre') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+
+                <!-- Apellido -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Apellido</label>
+                    <input type="text" wire:model="apellido" 
+                           class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    @error('apellido') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input type="email" wire:model="email" 
+                           class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+
+                <!-- Teléfono -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
+                    <input type="text" wire:model="telefono" 
+                           class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    @error('telefono') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+
+                <!-- Identificación -->
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Identificación</label>
+                    <input type="text" wire:model="identificacion" 
+                           class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    @error('identificacion') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+
+                <!-- Departamento -->
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Departamento</label>
+                    <select wire:model="departamento_id" 
+                            class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <option value="">Sin departamento</option>
+                        @foreach(\App\Models\Departamento::all() as $departamento)
+                            <option value="{{ $departamento->id }}">{{ $departamento->nombre }}</option>
+                        @endforeach
+                    </select>
+                    @error('departamento_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="flex flex-col sm:flex-row justify-end items-center gap-4 mt-6 border-t pt-6">
+                <a href="{{ route('empleados.index') }}" 
+                   class="text-gray-600 hover:text-gray-800 transition w-full sm:w-auto text-center">
+                    Cancelar
+                </a>
+                <button type="submit" 
+                        class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg shadow transition">
+                    Actualizar Empleado
+                </button>
+            </div>
+        </form>
+    </div>
 </div>

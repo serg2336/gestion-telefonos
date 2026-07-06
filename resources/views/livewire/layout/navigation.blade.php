@@ -24,7 +24,12 @@ new class extends Component
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}" wire:navigate>
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <!-- Logo -->
+<div class="shrink-0 flex items-center">
+    <a href="{{ route('dashboard') }}" wire:navigate>
+        <span class="text-2xl font-bold text-blue-600">INNOVATECH</span>
+    </a>
+</div>
                     </a>
                 </div>
 
@@ -33,23 +38,28 @@ new class extends Component
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
                     <x-nav-link :href="route('empleados.index')" :active="request()->routeIs('empleados.*')" wire:navigate>
                         {{ __('Empleados') }}
                     </x-nav-link>
- feature/crud-dispositivos
+
                     <x-nav-link :href="route('dispositivos.index')" :active="request()->routeIs('dispositivos.*')" wire:navigate>
                         {{ __('Dispositivos') }}
                     </x-nav-link>
 
- feature/sistema-asignaciones
-                    <x-nav-link :href="route('dispositivos.index')" :active="request()->routeIs('dispositivos.*')" wire:navigate>
-                        {{ __('Dispositivos') }}
-                    </x-nav-link>
                     <x-nav-link :href="route('asignaciones.index')" :active="request()->routeIs('asignaciones.*')" wire:navigate>
                         {{ __('Asignaciones') }}
                     </x-nav-link>
-develop
-develop
+
+                    <x-nav-link :href="route('departamentos.index')" :active="request()->routeIs('departamentos.*')" wire:navigate>
+                        {{ __('Departamentos') }}
+                    </x-nav-link>
+
+                    @if(auth()->user()->rol === 'admin')
+                        <x-nav-link :href="route('register')" :active="request()->routeIs('register')" wire:navigate>
+                            {{ __('Registrar Usuario') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -98,27 +108,41 @@ develop
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-                    <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
-                        {{ __('Dashboard') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('empleados.index')" :active="request()->routeIs('empleados.*')" wire:navigate>
-                        {{ __('Empleados') }}
-                    </x-responsive-nav-link>
- feature/crud-dispositivos
-                    <x-responsive-nav-link :href="route('dispositivos.index')" :active="request()->routeIs('dispositivos.*')" wire:navigate>
-                        {{ __('Dispositivos') }}
-                    </x-responsive-nav-link>
- feature/sistema-asignaciones
-                    <x-responsive-nav-link :href="route('dispositivos.index')" :active="request()->routeIs('dispositivos.*')" wire:navigate>
-                        {{ __('Dispositivos') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('asignaciones.index')" :active="request()->routeIs('asignaciones.*')" wire:navigate>
-                        {{ __('Asignaciones') }}
-                    </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
+                {{ __('Dashboard') }}
+            </x-responsive-nav-link>
 
-develop
- develop
-                </div>
+            <x-responsive-nav-link :href="route('empleados.index')" :active="request()->routeIs('empleados.*')" wire:navigate>
+                {{ __('Empleados') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('dispositivos.index')" :active="request()->routeIs('dispositivos.*')" wire:navigate>
+                {{ __('Dispositivos') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('asignaciones.index')" :active="request()->routeIs('asignaciones.*')" wire:navigate>
+                {{ __('Asignaciones') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('departamentos.index')" :active="request()->routeIs('departamentos.*')" wire:navigate>
+                {{ __('Departamentos') }}
+            </x-responsive-nav-link>
+        @if(auth()->user()->rol === 'admin')
+    <x-nav-link :href="route('admin.register-user')" :active="request()->routeIs('admin.register-user')" wire:navigate>
+        {{ __('Registrar Usuario con Rol') }}
+    </x-nav-link>
+@endif
+            @if(auth()->user()->rol === 'admin')
+    <x-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')" wire:navigate>
+        {{ __('Usuarios') }}
+    </x-nav-link>
+            @endif
+            @if(auth()->user()->rol === 'admin')
+                <x-responsive-nav-link :href="route('register')" :active="request()->routeIs('register')" wire:navigate>
+                    {{ __('Registrar Usuario') }}
+                </x-responsive-nav-link>
+            @endif
+        </div>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
