@@ -1,54 +1,33 @@
-<?php
-
-namespace App\Livewire\Empleados;
-
-use App\Models\Empleado;
-use Livewire\Component;
-
-class Edit extends Component
-{
-    public $empleado_id;
-    public $primer_nombre;
-    public $apellido;
-    public $email;
-    public $telefono;
-    public $identificacion;
-
-    public function mount($id)
-    {
-        $empleado = Empleado::findOrFail($id);
-        $this->empleado_id = $empleado->id;
-        $this->primer_nombre = $empleado->primer_nombre;
-        $this->apellido = $empleado->apellido;
-        $this->email = $empleado->email;
-        $this->telefono = $empleado->telefono;
-        $this->identificacion = $empleado->identificacion;
-    }
-
-    public function update()
-    {
-        $this->validate([
-            'primer_nombre' => 'required|string|max:255',
-            'apellido' => 'required|string|max:255',
-            'email' => 'required|email|unique:empleados,email,' . $this->empleado_id,
-            'telefono' => 'required|string|max:20',
-            'identificacion' => 'nullable|string|max:50',
-        ]);
-
-        Empleado::find($this->empleado_id)->update([
-            'primer_nombre' => $this->primer_nombre,
-            'apellido' => $this->apellido,
-            'email' => $this->email,
-            'telefono' => $this->telefono,
-            'identificacion' => $this->identificacion,
-        ]);
-
-        session()->flash('message', 'Empleado actualizado correctamente.');
-        return redirect()->route('empleados.index');
-    }
-
-    public function render()
-    {
-        return view('livewire.empleados.edit');
-    }
-}
+<div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+            <tr>
+                <!-- Siempre visibles -->
+                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Nombre</th>
+                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Apellido</th>
+                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                <!-- Ocultas en móviles, visibles en sm -->
+                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase hidden sm:table-cell">Teléfono</th>
+                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase hidden md:table-cell">Identificación</th>
+                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase hidden sm:table-cell">Departamento</th>
+                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Acciones</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+            @foreach ($empleados as $empleado)
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="px-3 py-2 whitespace-nowrap text-sm">{{ $empleado->primer_nombre }}</td>
+                    <td class="px-3 py-2 whitespace-nowrap text-sm">{{ $empleado->apellido }}</td>
+                    <td class="px-3 py-2 whitespace-nowrap text-sm">{{ $empleado->email }}</td>
+                    <td class="px-3 py-2 whitespace-nowrap text-sm hidden sm:table-cell">{{ $empleado->telefono }}</td>
+                    <td class="px-3 py-2 whitespace-nowrap text-sm hidden md:table-cell">{{ $empleado->identificacion }}</td>
+                    <td class="px-3 py-2 whitespace-nowrap text-sm hidden sm:table-cell">{{ $empleado->departamento->nombre ?? 'Sin asignar' }}</td>
+                    <td class="px-3 py-2 whitespace-nowrap text-sm">
+                        <a href="{{ route('empleados.edit', $empleado->id) }}" class="text-blue-600 hover:text-blue-800">Editar</a>
+                        <button wire:click="delete({{ $empleado->id }})" wire:confirm="¿Eliminar?" class="text-red-600 hover:text-red-800 ml-2">Eliminar</button>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
