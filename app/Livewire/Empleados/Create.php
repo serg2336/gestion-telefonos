@@ -14,6 +14,7 @@ class Create extends Component
     public $email = '';
     public $telefono = '';
     public $identificacion = '';
+    public $departamento_id = '';
 
     protected $rules = [
         'primer_nombre' => 'required|string|max:255',
@@ -21,6 +22,7 @@ class Create extends Component
         'email' => 'required|email|unique:empleados,email',
         'telefono' => 'required|string|max:20',
         'identificacion' => 'nullable|string|max:50',
+        'departamento_id' => 'nullable|exists:departamentos,id',
     ];
 
     public function save()
@@ -33,6 +35,7 @@ class Create extends Component
             'email' => $this->email,
             'telefono' => $this->telefono,
             'identificacion' => $this->identificacion,
+             'departamento_id' => $this->departamento_id,
         ]);
 
         session()->flash('message', 'Empleado creado correctamente.');

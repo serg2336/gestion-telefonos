@@ -1,59 +1,167 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Gestión de Teléfonos
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistema web para la administración y control de asignación de dispositivos móviles a empleados de una organización.
 
-## About Laravel
+## Descripción del Sistema
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+La aplicación permite gestionar el inventario de dispositivos telefónicos y asignarlos a los empleados, llevando un registro histórico de todas las asignaciones. Está construida con **Laravel 12** y **Livewire 3**, con una interfaz moderna usando **Tailwind CSS**.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Funcionalidades Principales
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Gestión de Empleados**: CRUD completo con búsqueda y paginación.
+- **Gestión de Departamentos**: Organización de empleados por departamentos.
+- **Gestión de Dispositivos**: CRUD completo con campos como marca, modelo, número de serie, IMEI, estado y fecha de compra.
+- **Sistema de Asignaciones**: Asignar dispositivos a empleados y registrar devoluciones, con validación para evitar dobles asignaciones.
+- **Historial de Asignaciones**: Visualización del historial completo por empleado y por dispositivo.
+- **Dashboard**: Estadísticas resumidas (total de empleados, dispositivos, asignaciones activas).
+- **Autenticación**: Sistema de login con Laravel Breeze y roles (admin/usuario).
+- **API REST**: Endpoints protegidos con tokens Sanctum para consultar datos.
 
-## Learning Laravel
+## Tecnologías
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+| Tecnología | Versión |
+|------------|---------|
+| PHP | ^8.2 |
+| Laravel | ^12.0 |
+| Livewire | ^3.6 |
+| Tailwind CSS | ^3.x |
+| MySQL | - |
+| Laravel Sanctum | ^4.3 |
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Requisitos
 
-## Laravel Sponsors
+- PHP >= 8.2
+- Composer
+- Node.js y npm
+- MySQL
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Instalación
 
-### Premium Partners
+1. **Clonar el repositorio**
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+git clone https://github.com/serg2336/gestion-telefonos.git
+cd gestion-telefonos
+```
 
-## Contributing
+2. **Instalar dependencias de PHP**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+composer install
+```
 
-## Code of Conduct
+3. **Configurar variables de entorno**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-## Security Vulnerabilities
+Editar el archivo `.env` y configurar la conexión a la base de datos:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=gestion-telefonos
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-## License
+4. **Instalar dependencias de Node.js y compilar assets**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+npm install
+npm run build
+```
+
+5. **Ejecutar migraciones**
+
+```bash
+php artisan migrate
+```
+
+6. **Iniciar el servidor**
+
+```bash
+php artisan serve
+```
+
+La aplicación estará disponible en `http://localhost:8000`.
+
+## Estructura de la Base de Datos
+
+### Tablas Principales
+
+| Tabla | Descripción |
+|-------|-------------|
+| `users` | Usuarios del sistema (admin/usuario) |
+| `empleados` | Empleados de la organización |
+| `departamentos` | Departamentos de la organización |
+| `dispositivos` | Dispositivos telefónicos (con soft deletes) |
+| `asignaciones` | Registro de asignaciones de dispositivos a empleados |
+
+### Diagrama de Relaciones
+
+```
+departamentos ──< empleados ──< asignaciones >── dispositivos
+                    ↑                               │
+                    └────── historial ──────────────┘
+```
+
+- Un **Departamento** tiene muchos **Empleados**
+- Un **Empleado** tiene muchas **Asignaciones**
+- Un **Dispositivo** tiene muchas **Asignaciones** (historial)
+- Una **Asignación** pertenece a un Empleado y a un Dispositivo
+- Los **Dispositivos** usan eliminación lógica (soft deletes)
+
+### Campos Clave
+
+**dispositivos**: `marca`, `modelo`, `numero_serie` (único), `imei` (único), `estado` (disponible, asignado, mantenimiento, baja), `fecha_compra`
+
+**asignaciones**: `dispositivo_id`, `empleado_id`, `fecha_asignacion`, `fecha_devolucion`, `estado` (activo, devuelto)
+
+## Rutas del Sistema
+
+### Web (autenticadas)
+
+| Ruta | Descripción |
+|------|-------------|
+| `/dashboard` | Dashboard con estadísticas |
+| `/empleados` | Listado de empleados |
+| `/empleados/create` | Crear empleado |
+| `/empleados/{id}/edit` | Editar empleado |
+| `/empleados/{id}` | Ver detalle e historial del empleado |
+| `/dispositivos` | Listado de dispositivos |
+| `/dispositivos/create` | Crear dispositivo |
+| `/dispositivos/{id}/edit` | Editar dispositivo |
+| `/dispositivos/{id}` | Ver detalle e historial del dispositivo |
+| `/asignaciones` | Listado de asignaciones |
+| `/asignaciones/create` | Nueva asignación |
+
+### API (protegidas con Sanctum)
+
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| GET | `/api/empleados` | Listar empleados |
+| GET | `/api/empleados/{id}` | Ver empleado |
+| GET | `/api/dispositivos` | Listar dispositivos |
+| GET | `/api/dispositivos/{id}` | Ver dispositivo |
+| GET | `/api/asignaciones` | Listar asignaciones |
+| GET | `/api/asignaciones/{id}` | Ver asignación |
+| GET | `/api/user` | Usuario autenticado |
+
+Para usar la API, generar un token desde Tinker:
+
+```bash
+php artisan tinker
+>>> $user = App\Models\User::first();
+>>> $token = $user->createToken('api-token')->plainTextToken;
+>>> echo $token;
+```
+
+Luego usar el token en el header:
+
+```
+Authorization: Bearer {token}
+```
