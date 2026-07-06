@@ -28,6 +28,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/empleados', \App\Livewire\Empleados\Index::class)->name('empleados.index');
     Route::get('/empleados/create', \App\Livewire\Empleados\Create::class)->name('empleados.create');
     Route::get('/empleados/{id}/edit', \App\Livewire\Empleados\Edit::class)->name('empleados.edit');
+feature/historial-asignaciones
+    Route::get('/empleados/{id}', \App\Livewire\Empleados\Show::class)->name('empleados.show');
+
+    Route::get('/dispositivos/{id}', \App\Livewire\Dispositivos\Show::class)->name('dispositivos.show');
+
+ develop
 });
 
 Route::get('/prueba-ruta', function () {
