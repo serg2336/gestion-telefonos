@@ -22,17 +22,22 @@
                 <th class="px-4 py-2">Email</th>
                 <th class="px-4 py-2">Teléfono</th>
                 <th class="px-4 py-2">Identificación</th>
+                 <th class="px-4 py-2 text-left">Departamento</th>
                 <th class="px-4 py-2">Acciones</th>
+               
+                
             </tr>
         </thead>
         <tbody>
             @foreach ($empleados as $empleado)
-                <tr class="border-t">
+                <tr class="border-t hover:bg-gray-100 transition duration-150">
                     <td class="px-4 py-2">{{ $empleado->primer_nombre }}</td>
                     <td class="px-4 py-2">{{ $empleado->apellido }}</td>
                     <td class="px-4 py-2">{{ $empleado->email }}</td>
                     <td class="px-4 py-2">{{ $empleado->telefono }}</td>
                     <td class="px-4 py-2">{{ $empleado->identificacion }}</td>
+                    <td class="px-4 py-2">{{ $empleado->departamento->nombre ?? 'Sin asignar' }}</td>
+
                     <td class="px-4 py-2">
                         <a href="{{ route('empleados.edit', $empleado->id) }}" class="text-blue-500 hover:underline">Editar</a>
                         <button wire:click="delete({{ $empleado->id }})" wire:confirm="¿Eliminar este empleado?" class="text-red-500 hover:underline ml-2">Eliminar</button>
