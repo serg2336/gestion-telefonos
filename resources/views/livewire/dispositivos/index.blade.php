@@ -41,7 +41,12 @@
                         </td>
                         <td class="px-4 py-2">{{ $dispositivo->fecha_compra?->format('d/m/Y') ?? '—' }}</td>
                         <td class="px-4 py-2 text-center">
+feature/crud-dispositivos
                             <a href="{{ route('dispositivos.edit', $dispositivo->id) }}" class="text-blue-500 hover:underline">Editar</a>
+
+                            <a href="{{ route('dispositivos.show', $dispositivo->id) }}" class="text-green-500 hover:underline">Ver</a>
+                            <a href="{{ route('dispositivos.edit', $dispositivo->id) }}" class="text-blue-500 hover:underline ml-2">Editar</a>
+develop
                             <button wire:click="delete({{ $dispositivo->id }})" wire:confirm="¿Eliminar este dispositivo?" class="text-red-500 hover:underline ml-2">Eliminar</button>
                         </td>
                     </tr>
