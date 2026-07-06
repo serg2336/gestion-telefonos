@@ -1,7 +1,9 @@
 <div>
     <div class="flex justify-between items-center mb-4">
         <h1 class="text-2xl font-bold">Empleados</h1>
+        @if(auth()->user()->rol === 'admin')
         <a href="{{ route('empleados.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded">Nuevo Empleado</a>
+    @endif
     </div>
 
     @if (session()->has('message'))
@@ -39,9 +41,14 @@
                     <td class="px-4 py-2">{{ $empleado->departamento->nombre ?? 'Sin asignar' }}</td>
 
                     <td class="px-4 py-2">
+
                         <a href="{{ route('empleados.show', $empleado->id) }}" class="text-green-500 hover:underline">Ver</a>
-                        <a href="{{ route('empleados.edit', $empleado->id) }}" class="text-blue-500 hover:underline ml-2">Editar</a>
+                        <a href="{{ route('empleados.edit', $empleado->id) }}" class="text-blue-500 hover:underline ml-2">Editar</a
+                        @if(auth()->user()->rol === 'admin')
+                        <a href="{{ route('empleados.edit', $empleado->id) }}" class="text-blue-500 hover:underline">Editar</a>
+
                         <button wire:click="delete({{ $empleado->id }})" wire:confirm="¿Eliminar este empleado?" class="text-red-500 hover:underline ml-2">Eliminar</button>
+                         @endif
                     </td>
                 </tr>
             @endforeach

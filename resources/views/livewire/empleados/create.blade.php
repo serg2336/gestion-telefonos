@@ -1,6 +1,15 @@
 <div class="py-8 px-4 sm:px-6 lg:px-8">
     <div class="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-6">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6 border-b pb-4">Crear Nuevo Empleado</h1>
+        <div class="flex items-center gap-4 mb-6 border-b pb-4">
+    <a href="{{ route('empleados.index') }}" 
+       class="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors duration-200">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        Volver al listado
+    </a>
+    <h1 class="text-2xl font-bold text-gray-800">Crear Nuevo Empleado</h1>
+</div>
 
         <form wire:submit.prevent="save">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

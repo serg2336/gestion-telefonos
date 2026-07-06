@@ -25,7 +25,12 @@
                 <!-- Botones de login/register centrados -->
                 <div class="flex justify-center items-center gap-4">
                     @auth
-                        <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a>
+                       <a href="{{ url('/dashboard') }}" 
+   style="font-size: 1rem; display: inline-block; padding: 2rem 4rem; font-weight: 700; color: #1f2937; background-color: rgba(255,255,255,0.4); backdrop-filter: blur(4px); border-radius: 1rem; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); transition: all 0.3s ease; text-decoration: none;"
+   onmouseover="this.style.backgroundColor='rgba(255,255,255,0.6)'; this.style.transform='scale(1.05)';"
+   onmouseout="this.style.backgroundColor='rgba(255,255,255,0.4)'; this.style.transform='scale(1)';">
+    Dashboard
+</a>
                     @else
                         <a href="{{ route('login') }}" class="px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition">Log in</a>
                        {{-- @if (Route::has('register'))
