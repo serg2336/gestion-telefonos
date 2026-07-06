@@ -36,6 +36,11 @@ new class extends Component
                     <x-nav-link :href="route('empleados.index')" :active="request()->routeIs('empleados.*')" wire:navigate>
                         {{ __('Empleados') }}
                     </x-nav-link>
+ feature/crud-dispositivos
+                    <x-nav-link :href="route('dispositivos.index')" :active="request()->routeIs('dispositivos.*')" wire:navigate>
+                        {{ __('Dispositivos') }}
+                    </x-nav-link>
+
  feature/sistema-asignaciones
                     <x-nav-link :href="route('dispositivos.index')" :active="request()->routeIs('dispositivos.*')" wire:navigate>
                         {{ __('Dispositivos') }}
@@ -43,6 +48,7 @@ new class extends Component
                     <x-nav-link :href="route('asignaciones.index')" :active="request()->routeIs('asignaciones.*')" wire:navigate>
                         {{ __('Asignaciones') }}
                     </x-nav-link>
+develop
 develop
                 </div>
             </div>
@@ -98,6 +104,10 @@ develop
                     <x-responsive-nav-link :href="route('empleados.index')" :active="request()->routeIs('empleados.*')" wire:navigate>
                         {{ __('Empleados') }}
                     </x-responsive-nav-link>
+ feature/crud-dispositivos
+                    <x-responsive-nav-link :href="route('dispositivos.index')" :active="request()->routeIs('dispositivos.*')" wire:navigate>
+                        {{ __('Dispositivos') }}
+                    </x-responsive-nav-link>
  feature/sistema-asignaciones
                     <x-responsive-nav-link :href="route('dispositivos.index')" :active="request()->routeIs('dispositivos.*')" wire:navigate>
                         {{ __('Dispositivos') }}
@@ -107,6 +117,7 @@ develop
                     </x-responsive-nav-link>
 
 develop
+ develop
                 </div>
 
         <!-- Responsive Settings Options -->
