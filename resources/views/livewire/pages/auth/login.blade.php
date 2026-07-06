@@ -21,8 +21,14 @@ new #[Layout('layouts.guest')] class extends Component
     }
 }; ?>
 
-<div class="w-full sm:max-w-md mx-auto px-4 sm:px-6">
-    <!-- Mostrar errores de validación -->
+<div class="w-full sm:max-w-md mx-auto px-4 sm:px-6 py-4 mb-4">
+    <!-- Logo -->
+    <div class="text-center mb-6">
+        <h1 class="text-4xl font-bold text-blue-600 tracking-wider">INNOVATECH</h1>
+        <p class="text-sm text-gray-500 mt-1">Sistema de Gestión de Dispositivos</p>
+    </div>
+
+    <!-- Errores -->
     @if ($errors->any())
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4 text-sm">
             <ul class="list-disc pl-5">
@@ -33,11 +39,10 @@ new #[Layout('layouts.guest')] class extends Component
         </div>
     @endif
 
-    <!-- Session Status -->
     <x-auth-session-status class="mb-4 text-sm" :status="session('status')" />
 
     <form wire:submit="login" class="space-y-4">
-        <!-- Email Address -->
+        <!-- Email -->
         <div>
             <x-input-label for="email" :value="__('Email')" class="text-sm font-medium text-gray-700" />
             <x-text-input wire:model="form.email" id="email" 
@@ -76,7 +81,7 @@ new #[Layout('layouts.guest')] class extends Component
             </x-primary-button>
         </div>
 
-        <!-- Enlace a registro (opcional, si quieres mostrarlo) -->
+        <!-- Enlace a registro -->
         @if (Route::has('register'))
             <div class="mt-4 text-center text-sm text-gray-600">
                 ¿No tienes cuenta?
@@ -86,4 +91,8 @@ new #[Layout('layouts.guest')] class extends Component
             </div>
         @endif
     </form>
+    </form>
+
+</div>
+
 </div>

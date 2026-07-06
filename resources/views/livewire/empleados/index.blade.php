@@ -43,7 +43,7 @@
                     <td class="px-4 py-2">
 
                         <a href="{{ route('empleados.show', $empleado->id) }}" class="text-green-500 hover:underline">Ver</a>
-                        <a href="{{ route('empleados.edit', $empleado->id) }}" class="text-blue-500 hover:underline ml-2">Editar</a
+                       
                         @if(auth()->user()->rol === 'admin')
                         <a href="{{ route('empleados.edit', $empleado->id) }}" class="text-blue-500 hover:underline">Editar</a>
 

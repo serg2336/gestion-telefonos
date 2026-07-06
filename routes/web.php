@@ -13,6 +13,10 @@ require __DIR__.'/auth.php';
 
 Route::middleware(['auth'])->group(function () {
     // Ruta de prueba
+        Route::get('/usuarios', \App\Livewire\Usuarios\Index::class)->name('usuarios.index')->middleware(['auth']);
+       Route::get('/admin/register-user', \App\Livewire\Admin\RegisterUser::class)
+    ->middleware(['auth'])
+    ->name('admin.register-user');
     Route::get('/test-auth', function () {
         return '✅ Autenticado correctamente';
     });

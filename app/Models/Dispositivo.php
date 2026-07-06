@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Asignacion;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 class Dispositivo extends Model
 {
     use SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
         'marca',
