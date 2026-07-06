@@ -34,7 +34,8 @@
                     <td class="px-4 py-2">{{ $empleado->telefono }}</td>
                     <td class="px-4 py-2">{{ $empleado->identificacion }}</td>
                     <td class="px-4 py-2">
-                        <a href="{{ route('empleados.edit', $empleado->id) }}" class="text-blue-500 hover:underline">Editar</a>
+                        <a href="{{ route('empleados.show', $empleado->id) }}" class="text-green-500 hover:underline">Ver</a>
+                        <a href="{{ route('empleados.edit', $empleado->id) }}" class="text-blue-500 hover:underline ml-2">Editar</a>
                         <button wire:click="delete({{ $empleado->id }})" wire:confirm="¿Eliminar este empleado?" class="text-red-500 hover:underline ml-2">Eliminar</button>
                     </td>
                 </tr>
