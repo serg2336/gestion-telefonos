@@ -31,28 +31,21 @@ class Edit extends Component
         $this->departamento_id = $empleado->departamento_id;
     }
 
-    // 👇 Reglas de validación
-    protected $rules = [
-        'primer_nombre' => 'required|string|max:255',
-        'apellido' => 'required|string|max:255',
-        'email' => 'required|email|unique:empleados,email,{empleado_id}',
-        'telefono' => 'required|string|max:20',
-        'identificacion' => 'nullable|string|max:50',
-        'departamento_id' => 'nullable|exists:departamentos,id',
-    ];
-
-    // 👇 Método que se ejecuta al enviar el formulario
-    public function update()
+    protected function rules()
     {
-        // Validar (se ajusta la regla de email para ignorar el registro actual)
-        $this->validate([
+        return [
             'primer_nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
             'email' => 'required|email|unique:empleados,email,' . $this->empleado_id,
             'telefono' => 'required|string|max:20',
             'identificacion' => 'nullable|string|max:50',
             'departamento_id' => 'nullable|exists:departamentos,id',
-        ]);
+        ];
+    }
+
+    public function update()
+    {
+        $this->validate();
 
         // Actualizar el empleado
         Empleado::find($this->empleado_id)->update([
