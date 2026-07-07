@@ -35,8 +35,7 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
-
-        return redirect('/');
+        session()->flash('message', 'Usuario creado correctamente.');
+        return redirect()->route('register');
     }
 }
