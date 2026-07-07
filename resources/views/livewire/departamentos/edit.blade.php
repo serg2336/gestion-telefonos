@@ -1,30 +1,35 @@
-<div>
-    <h1 class="text-2xl font-bold mb-4">Editar Departamento</h1>
-
-    <form wire:submit.prevent="update" class="max-w-md">
-        <div class="mb-4">
-            <label class="block text-sm font-medium mb-1">Nombre</label>
-            <input type="text" wire:model="nombre" class="border rounded px-4 py-2 w-full">
-            @error('nombre') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+<div class="py-8 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-sm p-6">
+        <div class="flex items-center gap-4 mb-6 border-b pb-4">
+            <a href="{{ route('departamentos.index') }}" class="text-gray-500 hover:text-gray-700" title="Volver">
+                <i class="fas fa-arrow-left text-lg"></i>
+            </a>
+            <h1 class="text-xl font-bold text-gray-800">
+                <i class="fas fa-edit mr-2 text-blue-600"></i>Editar Departamento
+            </h1>
         </div>
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium mb-1">Descripción</label>
-            <textarea wire:model="descripcion" class="border rounded px-4 py-2 w-full" rows="3"></textarea>
-            @error('descripcion') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-        </div>
+        <form wire:submit.prevent="update">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                    <input type="text" wire:model="nombre" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    @error('nombre') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
 
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Actualizar</button>
-        <a href="{{ route('departamentos.index') }}" class="ml-2 text-gray-500">Cancelar</a>
-        <div class="md:col-span-2">
-    <label class="block text-sm font-medium text-gray-700 mb-1">Departamento</label>
-    <select wire:model="departamento_id" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-        <option value="">Sin departamento</option>
-        @foreach(\App\Models\Departamento::all() as $departamento)
-            <option value="{{ $departamento->id }}">{{ $departamento->nombre }}</option>
-        @endforeach
-    </select>
-    @error('departamento_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-</div>
-    </form>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
+                    <textarea wire:model="descripcion" rows="3" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Descripción del departamento..."></textarea>
+                    @error('descripcion') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+            </div>
+
+            <div class="flex justify-end items-center gap-4 mt-8 border-t pt-6">
+                <a href="{{ route('departamentos.index') }}" class="text-gray-600 hover:text-gray-800 transition text-sm">Cancelar</a>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg shadow transition text-sm">
+                    <i class="fas fa-save mr-1.5"></i>Actualizar Departamento
+                </button>
+            </div>
+        </form>
+    </div>
 </div>

@@ -15,6 +15,14 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
+        <div x-data="{ loading: false }"
+             x-on:livewire:navigating.window="loading = true"
+             x-on:livewire:navigated.window="loading = false"
+             class="fixed top-0 left-0 right-0 z-50 h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 transition-opacity duration-300"
+             x-show="loading"
+             x-transition:leave.opacity.duration.500
+             style="display: none;">
+        </div>
         <div class="min-h-screen bg-gray-100">
             <livewire:layout.navigation />
 

@@ -7,22 +7,27 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-        <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
-                <a href="/" wire:navigate>
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                </a>
-            </div>
-
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+        <div x-data="{ loading: false }"
+             x-on:livewire:navigating.window="loading = true"
+             x-on:livewire:navigated.window="loading = false"
+             class="fixed top-0 left-0 right-0 z-50 h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 transition-opacity duration-300"
+             x-show="loading"
+             x-transition:leave.opacity.duration.500
+             style="display: none;">
+        </div>
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gradient-to-br from-blue-600 to-indigo-800">
+            <div class="w-full sm:max-w-md mt-6 px-6 py-6 bg-white/10 backdrop-blur-md rounded-2xl shadow-2xl border border-white/20">
+                <div class="text-center mb-6">
+                    <span class="text-3xl font-bold text-white tracking-wider">INNOVATECH</span>
+                    <p class="text-blue-200 text-sm mt-1">Sistema de Gestión de Dispositivos</p>
+                </div>
                 {{ $slot }}
             </div>
         </div>
