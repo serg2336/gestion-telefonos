@@ -56,7 +56,7 @@ new class extends Component
                     </x-nav-link>
 
                     @if(auth()->user()->rol === 'admin')
-                        <x-nav-link :href="route('register')" :active="request()->routeIs('register')" wire:navigate>
+                        <x-nav-link :href="route('admin.register-user')" :active="request()->routeIs('admin.register-user')" wire:navigate>
                             {{ __('Registrar Usuario') }}
                         </x-nav-link>
                     @endif
@@ -138,7 +138,7 @@ new class extends Component
     </x-nav-link>
             @endif
             @if(auth()->user()->rol === 'admin')
-                <x-responsive-nav-link :href="route('register')" :active="request()->routeIs('register')" wire:navigate>
+                <x-responsive-nav-link :href="route('admin.register-user')" :active="request()->routeIs('admin.register-user')" wire:navigate>
                     {{ __('Registrar Usuario') }}
                 </x-responsive-nav-link>
             @endif

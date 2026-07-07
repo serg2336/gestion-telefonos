@@ -69,10 +69,7 @@ new #[Layout('layouts.guest')] class extends Component
             <x-text-input wire:model="password_confirmation" id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
-       <!-- Depuración: Mostrar el rol del usuario -->
-<div class="bg-yellow-100 p-2 mb-4">
-    Rol actual: {{ auth()->user()->rol ?? 'No autenticado' }}
-</div>
+
         <!-- Campo Rol (solo visible para administradores) -->
         @if(auth()->check() && auth()->user()->rol === 'admin')
         <div class="mt-4">
