@@ -22,17 +22,17 @@ class Edit extends Component
         $this->descripcion = $departamento->descripcion;
     }
 
-    protected $rules = [
-        'nombre' => 'required|string|max:255|unique:departamentos,nombre,{departamento_id}',
-        'descripcion' => 'nullable|string|max:500',
-    ];
+    protected function rules()
+    {
+        return [
+            'nombre' => 'required|string|max:255|unique:departamentos,nombre,' . $this->departamento_id,
+            'descripcion' => 'nullable|string|max:500',
+        ];
+    }
 
     public function update()
     {
-        $this->validate([
-            'nombre' => 'required|string|max:255|unique:departamentos,nombre,' . $this->departamento_id,
-            'descripcion' => 'nullable|string|max:500',
-        ]);
+        $this->validate();
 
         Departamento::find($this->departamento_id)->update([
             'nombre' => $this->nombre,

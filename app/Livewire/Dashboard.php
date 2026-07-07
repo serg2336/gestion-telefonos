@@ -22,18 +22,12 @@ class Dashboard extends Component
             ->take(5)
             ->get();
 
-        $asignacionesPorMes = Asignacion::selectRaw('MONTH(fecha_asignacion) as mes, YEAR(fecha_asignacion) as año, count(*) as total')
-            ->groupBy('año', 'mes')
-            ->orderBy('año')
-            ->orderBy('mes')
-            ->get();
+        $asignaciones = Asignacion::select('fecha_asignacion')->get();
+        $agrupadas = $asignaciones->groupBy(fn($item) => $item->fecha_asignacion->format('Y-m'))
+            ->sortKeys();
 
-        $labels = [];
-        $data = [];
-        foreach ($asignacionesPorMes as $item) {
-            $labels[] = $item->año . '-' . str_pad($item->mes, 2, '0', STR_PAD_LEFT);
-            $data[] = $item->total;
-        }
+        $labels = $agrupadas->keys()->toArray();
+        $data = $agrupadas->map(fn($group) => $group->count())->values()->toArray();
 
         return view('livewire.dashboard', [
             'totalEmpleados' => $totalEmpleados,
