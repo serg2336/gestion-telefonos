@@ -24,15 +24,16 @@
                     
                     <a href="{{ route('dashboard') }}" class="bg-blue-500 text-white px-4 py-3 rounded text-center hover:bg-blue-600">Dashboard</a>
                     <a href="{{ route('empleados.index') }}" class="bg-green-500 text-white px-4 py-3 rounded text-center hover:bg-green-600">  <i class="fas fa-users mr-2"></i> Empleados</a>
-                    <a href="{{ route('empleados.create') }}" class="bg-yellow-500 text-white px-4 py-3 rounded text-center hover:bg-yellow-600">Crear Empleado</a>
-                     <a href="{{ route('departamentos.index') }}" class="bg-indigo-500 text-white px-4 py-3 rounded text-center hover:bg-indigo-600">Departamentos</a>
+                    @if(auth()->user()->rol === 'admin')
+                        <a href="{{ route('empleados.create') }}" class="bg-yellow-500 text-white px-4 py-3 rounded text-center hover:bg-yellow-600">Crear Empleado</a>
+                    @endif
+                    <a href="{{ route('departamentos.index') }}" class="bg-indigo-500 text-white px-4 py-3 rounded text-center hover:bg-indigo-600">Departamentos</a>
+                    <a href="{{ route('dispositivos.index') }}" class="bg-teal-500 text-white px-4 py-3 rounded text-center hover:bg-teal-600">Dispositivos</a>
+                    <a href="{{ route('asignaciones.index') }}" class="bg-pink-500 text-white px-4 py-3 rounded text-center hover:bg-pink-600">Asignaciones</a>
                     <a href="{{ route('profile') }}" class="bg-purple-500 text-white px-4 py-3 rounded text-center hover:bg-purple-600">Perfil</a>
                     @if(auth()->user()->rol === 'admin')
                         <a href="{{ route('register') }}" class="bg-red-500 text-white px-4 py-3 rounded text-center hover:bg-red-600">Registrar Usuario</a>
                     @endif
-                    {{-- Enlaces para futuros módulos de compañeros --}}
-                    {{-- <a href="{{ route('dispositivos.index') }}" class="bg-indigo-500 text-white px-4 py-3 rounded text-center hover:bg-indigo-600">Dispositivos</a> --}}
-                    {{-- <a href="{{ route('asignaciones.index') }}" class="bg-pink-500 text-white px-4 py-3 rounded text-center hover:bg-pink-600">Asignaciones</a> --}}
                 </div>
             </div>
 
