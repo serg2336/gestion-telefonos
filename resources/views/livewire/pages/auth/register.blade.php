@@ -14,7 +14,7 @@ new #[Layout('layouts.guest')] class extends Component
     public string $email = '';
     public string $password = '';
     public string $password_confirmation = '';
-    public string $rol = 'user'; // 👈 Campo para el rol
+    public string $rol = 'usuario';
 
     public function register(): void
     {
@@ -22,7 +22,7 @@ new #[Layout('layouts.guest')] class extends Component
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
-            'rol' => ['required', 'in:user,admin'], // Validación del rol
+            'rol' => ['required', 'in:usuario,admin'],
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
@@ -75,7 +75,7 @@ new #[Layout('layouts.guest')] class extends Component
         <div class="mt-4">
             <x-input-label for="rol" :value="__('Rol')" />
             <select wire:model="rol" id="rol" class="block mt-1 w-full border-gray-300 rounded-md shadow-sm">
-                <option value="user">Usuario</option>
+                <option value="usuario">Usuario</option>
                 <option value="admin">Administrador</option>
             </select>
             <x-input-error :messages="$errors->get('rol')" class="mt-2" />

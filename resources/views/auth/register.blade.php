@@ -62,7 +62,7 @@
                     <div class="mb-4">
                         <x-input-label for="rol" :value="__('Rol')" />
                         <select name="rol" id="rol" class="block mt-1 w-full border-gray-300 rounded-md shadow-sm">
-                            <option value="user">Usuario</option>
+                            <option value="usuario">Usuario</option>
                             <option value="admin">Administrador</option>
                         </select>
                         <x-input-error :messages="$errors->get('rol')" class="mt-2" />
