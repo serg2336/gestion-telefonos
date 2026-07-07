@@ -5,6 +5,9 @@ namespace App\Livewire\Admin;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
+use Livewire\Attributes\Layout;
+
+#[Layout('layouts.app')]
 
 class RegisterUser extends Component
 {
