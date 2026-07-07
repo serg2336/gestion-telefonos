@@ -7,71 +7,54 @@ use App\Models\Departamento;
 use App\Models\Empleado;
 use App\Models\Dispositivo;
 use App\Models\Asignacion;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Departamentos
+        // 1. Departamentos realistas
         $departamentos = [
-            ['nombre' => 'Ventas'],
-            ['nombre' => 'Soporte'],
-            ['nombre' => 'Desarrollo'],
-            ['nombre' => 'Administración'],
+            ['nombre' => 'Ventas', 'descripcion' => 'Comercialización y atención a clientes'],
+            ['nombre' => 'Soporte Técnico', 'descripcion' => 'Mantenimiento y soporte de dispositivos'],
+            ['nombre' => 'Desarrollo', 'descripcion' => 'Desarrollo de software y sistemas internos'],
+            ['nombre' => 'Recursos Humanos', 'descripcion' => 'Gestión del personal y contrataciones'],
+            ['nombre' => 'Administración', 'descripcion' => 'Finanzas, contabilidad y administración general'],
         ];
         foreach ($departamentos as $dep) {
             Departamento::create($dep);
         }
 
-        // 2. Empleados (20) - SIN FACTORY
-        for ($i = 1; $i <= 20; $i++) {
-            Empleado::create([
-                'primer_nombre' => 'Empleado' . $i,
-                'apellido' => 'Apellido' . $i,
-                'email' => 'empleado' . $i . '@example.com',
-                'telefono' => '12345678' . $i,
-                'identificacion' => 'ID' . str_pad($i, 4, '0', STR_PAD_LEFT),
-                'departamento_id' => Departamento::inRandomOrder()->first()->id ?? 1,
-            ]);
-        }
+        // 2. Empleados con factory (Faker: nombres, emails y teléfonos realistas)
+        Empleado::factory(20)->create();
 
-        // 3. Dispositivos (30) - SIN FACTORY
-        for ($i = 1; $i <= 30; $i++) {
-            Dispositivo::create([
-                'marca' => ['Samsung', 'Apple', 'Xiaomi', 'Motorola', 'Huawei'][array_rand(['Samsung', 'Apple', 'Xiaomi', 'Motorola', 'Huawei'])],
-                'modelo' => 'Modelo-' . $i,
-                'numero_serie' => 'SN-' . str_pad($i, 5, '0', STR_PAD_LEFT),
-                'imei' => str_pad($i, 15, '0', STR_PAD_LEFT),
-                'estado' => 'disponible',
-                'fecha_compra' => now()->subDays(rand(1, 365)),
-                'observaciones' => 'Dispositivo ' . $i,
-            ]);
-        }
+        // 3. Dispositivos con factory (Faker: marcas, modelos y números de serie realistas)
+        Dispositivo::factory(30)->create();
 
-        // 4. Asignaciones (10 activas)
+        // 4. Asignaciones realistas
         $empleados = Empleado::all();
-        $dispositivos = Dispositivo::where('estado', 'disponible')->take(10)->get();
+        $dispositivos = Dispositivo::where('estado', 'disponible')->take(15)->get();
 
         foreach ($dispositivos as $dispositivo) {
+            $fecha_asignacion = now()->subDays(rand(1, 180));
+            $devuelto = rand(0, 1) ? $fecha_asignacion->copy()->addDays(rand(1, 90)) : null;
+
             Asignacion::create([
                 'empleado_id' => $empleados->random()->id,
                 'dispositivo_id' => $dispositivo->id,
-                'fecha_asignacion' => now()->subDays(rand(1, 30)),
-                'estado' => 'activo',
-                'observaciones' => 'Asignación automática desde seeder',
+                'fecha_asignacion' => $fecha_asignacion,
+                'fecha_devolucion' => $devuelto,
+                'estado' => $devuelto ? 'devuelto' : 'activo',
+                'observaciones' => $devuelto
+                    ? 'Dispositivo devuelto en buen estado'
+                    : 'Asignado para uso diario',
             ]);
-            $dispositivo->update(['estado' => 'asignado']);
+
+            if (!$devuelto) {
+                $dispositivo->update(['estado' => 'asignado']);
+            }
         }
 
-        // 5. Crear un usuario administrador (si no existe)
-        if (!\App\Models\User::where('email', 'admin@example.com')->exists()) {
-            \App\Models\User::create([
-                'name' => 'Admin',
-                'email' => 'admin@example.com',
-                'password' => Hash::make('password'),
-                'rol' => 'admin',
-            ]);
-        }
+        // 5. Usuarios
+        $this->call(AdminUserSeeder::class);
     }
 }
