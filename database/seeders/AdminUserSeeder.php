@@ -10,11 +10,22 @@ class AdminUserSeeder extends Seeder
 {
     public function run()
     {
-        User::create([
-            'name' => 'Administrador',
-            'email' => 'admin@empresa.com',
-            'password' => Hash::make('password123'), // Cambia esto
-            'rol' => 'admin',
-        ]);
+        if (!User::where('email', 'admin@empresa.com')->exists()) {
+            User::create([
+                'name' => 'Admin',
+                'email' => 'admin@empresa.com',
+                'password' => Hash::make('password'),
+                'rol' => 'admin',
+            ]);
+        }
+
+        if (!User::where('email', 'usuario@empresa.com')->exists()) {
+            User::create([
+                'name' => 'Usuario',
+                'email' => 'usuario@empresa.com',
+                'password' => Hash::make('password'),
+                'rol' => 'usuario',
+            ]);
+        }
     }
 }
