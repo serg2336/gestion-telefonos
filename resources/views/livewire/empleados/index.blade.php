@@ -1,59 +1,77 @@
 <div>
     <div class="flex justify-between items-center mb-4">
-        <h1 class="text-2xl font-bold">Empleados</h1>
+        <h1 class="text-2xl font-bold text-gray-800">Empleados</h1>
         @if(auth()->user()->rol === 'admin')
-        <a href="{{ route('empleados.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded">Nuevo Empleado</a>
-    @endif
+            <a href="{{ route('empleados.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition text-sm font-medium shadow-sm">
+                <i class="fas fa-plus mr-1.5"></i>Nuevo Empleado
+            </a>
+        @endif
     </div>
 
     @if (session()->has('message'))
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-            {{ session('message') }}
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-4 text-sm">
+            <i class="fas fa-check-circle mr-1.5"></i>{{ session('message') }}
         </div>
     @endif
 
     <div class="mb-4">
-        <input type="text" wire:model.live="search" placeholder="Buscar empleados..." class="border rounded px-4 py-2 w-full">
+        <input type="text" wire:model.live="search" placeholder="Buscar empleados..." 
+               class="w-full border rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent">
     </div>
 
-    <table class="min-w-full bg-white border">
-        <thead>
-            <tr class="bg-gray-100">
-                <th class="px-4 py-2">Primer Nombre</th>
-                <th class="px-4 py-2">Apellido</th>
-                <th class="px-4 py-2">Email</th>
-                <th class="px-4 py-2">Teléfono</th>
-                <th class="px-4 py-2">Identificación</th>
-                 <th class="px-4 py-2 text-left">Departamento</th>
-                <th class="px-4 py-2">Acciones</th>
-               
-                
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($empleados as $empleado)
-                <tr class="border-t hover:bg-gray-100 transition duration-150">
-                    <td class="px-4 py-2">{{ $empleado->primer_nombre }}</td>
-                    <td class="px-4 py-2">{{ $empleado->apellido }}</td>
-                    <td class="px-4 py-2">{{ $empleado->email }}</td>
-                    <td class="px-4 py-2">{{ $empleado->telefono }}</td>
-                    <td class="px-4 py-2">{{ $empleado->identificacion }}</td>
-                    <td class="px-4 py-2">{{ $empleado->departamento->nombre ?? 'Sin asignar' }}</td>
-
-                    <td class="px-4 py-2">
-
-                        <a href="{{ route('empleados.show', $empleado->id) }}" class="text-green-500 hover:underline">Ver</a>
-                       
-                        @if(auth()->user()->rol === 'admin')
-                        <a href="{{ route('empleados.edit', $empleado->id) }}" class="text-blue-500 hover:underline">Editar</a>
-
-                        <button wire:click="delete({{ $empleado->id }})" wire:confirm="¿Eliminar este empleado?" class="text-red-500 hover:underline ml-2">Eliminar</button>
-                         @endif
-                    </td>
+    <div class="relative overflow-x-auto bg-white rounded-lg shadow" wire:loading.class="opacity-50 pointer-events-none">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Teléfono</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Identificación</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Departamento</th>
+                    <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @forelse ($empleados as $empleado)
+                    <tr class="hover:bg-gray-50 transition">
+                        <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">{{ $empleado->primer_nombre }} {{ $empleado->apellido }}</td>
+                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $empleado->email }}</td>
+                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $empleado->telefono }}</td>
+                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $empleado->identificacion }}</td>
+                        <td class="px-4 py-3 whitespace-nowrap text-sm">
+                            <span class="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded-full">{{ $empleado->departamento->nombre ?? 'Sin asignar' }}</span>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap text-sm text-center">
+                            <a href="{{ route('empleados.show', $empleado->id) }}" class="text-green-600 hover:text-green-800 mx-1" title="Ver">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            @if(auth()->user()->rol === 'admin')
+                                <a href="{{ route('empleados.edit', $empleado->id) }}" class="text-blue-600 hover:text-blue-800 mx-1" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <button wire:click="delete({{ $empleado->id }})" wire:confirm="¿Eliminar este empleado?" class="text-red-600 hover:text-red-800 mx-1" title="Eliminar">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            @endif
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="6" class="px-4 py-8 text-center text-sm text-gray-500">No hay empleados registrados.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+        <div wire:loading class="absolute inset-0 flex items-center justify-center bg-white/60 rounded-lg">
+            <div class="flex items-center gap-2 text-blue-600 font-medium text-sm">
+                <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>Cargando...</span>
+            </div>
+        </div>
+    </div>
 
     <div class="mt-4">
         {{ $empleados->links() }}
