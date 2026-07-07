@@ -13,9 +13,9 @@ require __DIR__.'/auth.php';
 
 Route::middleware(['auth'])->group(function () {
     // Ruta de prueba
-        Route::get('/usuarios', \App\Livewire\Usuarios\Index::class)->name('usuarios.index')->middleware(['auth']);
+        Route::get('/usuarios', \App\Livewire\Usuarios\Index::class)->name('usuarios.index')->middleware(['auth', 'role:admin']);
        Route::get('/admin/register-user', \App\Livewire\Admin\RegisterUser::class)
-    ->middleware(['auth'])
+    ->middleware(['auth', 'role:admin'])
     ->name('admin.register-user');
     Route::get('/test-auth', function () {
         return '✅ Autenticado correctamente';
@@ -26,24 +26,24 @@ Route::middleware(['auth'])->group(function () {
 
     // CRUD Departamentos
     Route::get('/departamentos', \App\Livewire\Departamentos\Index::class)->name('departamentos.index');
-    Route::get('/departamentos/create', \App\Livewire\Departamentos\Create::class)->name('departamentos.create');
-    Route::get('/departamentos/{id}/edit', \App\Livewire\Departamentos\Edit::class)->name('departamentos.edit');
+    Route::get('/departamentos/create', \App\Livewire\Departamentos\Create::class)->name('departamentos.create')->middleware('role:admin');
+    Route::get('/departamentos/{id}/edit', \App\Livewire\Departamentos\Edit::class)->name('departamentos.edit')->middleware('role:admin');
 
     // CRUD Empleados
     Route::get('/empleados', \App\Livewire\Empleados\Index::class)->name('empleados.index');
-    Route::get('/empleados/create', \App\Livewire\Empleados\Create::class)->name('empleados.create');
-    Route::get('/empleados/{id}/edit', \App\Livewire\Empleados\Edit::class)->name('empleados.edit');
+    Route::get('/empleados/create', \App\Livewire\Empleados\Create::class)->name('empleados.create')->middleware('role:admin');
+    Route::get('/empleados/{id}/edit', \App\Livewire\Empleados\Edit::class)->name('empleados.edit')->middleware('role:admin');
     Route::get('/empleados/{id}', \App\Livewire\Empleados\Show::class)->name('empleados.show');
 
     // CRUD Dispositivos
     Route::get('/dispositivos', \App\Livewire\Dispositivos\Index::class)->name('dispositivos.index');
-    Route::get('/dispositivos/create', \App\Livewire\Dispositivos\Create::class)->name('dispositivos.create');
-    Route::get('/dispositivos/{id}/edit', \App\Livewire\Dispositivos\Edit::class)->name('dispositivos.edit');
+    Route::get('/dispositivos/create', \App\Livewire\Dispositivos\Create::class)->name('dispositivos.create')->middleware('role:admin');
+    Route::get('/dispositivos/{id}/edit', \App\Livewire\Dispositivos\Edit::class)->name('dispositivos.edit')->middleware('role:admin');
     Route::get('/dispositivos/{id}', \App\Livewire\Dispositivos\Show::class)->name('dispositivos.show');
 
     // CRUD Asignaciones
     Route::get('/asignaciones', \App\Livewire\Asignaciones\Index::class)->name('asignaciones.index');
-    Route::get('/asignaciones/create', \App\Livewire\Asignaciones\Create::class)->name('asignaciones.create');
+    Route::get('/asignaciones/create', \App\Livewire\Asignaciones\Create::class)->name('asignaciones.create')->middleware('role:admin');
 });
 
 // Rutas públicas

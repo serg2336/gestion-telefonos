@@ -3,7 +3,9 @@
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-3xl font-bold text-gray-800">{{ $empleado->primer_nombre }} {{ $empleado->apellido }}</h1>
             <div class="flex gap-2">
-                <a href="{{ route('empleados.edit', $empleado->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Editar</a>
+                @if(auth()->user()->rol === 'admin')
+                    <a href="{{ route('empleados.edit', $empleado->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Editar</a>
+                @endif
                 <a href="{{ route('empleados.index') }}" class="text-gray-600 hover:text-gray-800 px-4 py-2">Volver</a>
             </div>
         </div>

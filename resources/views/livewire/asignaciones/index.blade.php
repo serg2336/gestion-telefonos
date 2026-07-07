@@ -1,7 +1,9 @@
 <div>
     <div class="flex justify-between items-center mb-4">
         <h1 class="text-2xl font-bold">Asignaciones</h1>
-        <a href="{{ route('asignaciones.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded">Nueva Asignación</a>
+        @if(auth()->user()->rol === 'admin')
+            <a href="{{ route('asignaciones.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded">Nueva Asignación</a>
+        @endif
     </div>
 
     @if (session()->has('message'))
@@ -55,7 +57,11 @@
                         </td>
                         <td class="px-4 py-2 text-center">
                             @if ($asignacion->estado === 'activo')
-                                <button wire:click="devolver({{ $asignacion->id }})" wire:confirm="¿Devolver este dispositivo?" class="text-yellow-500 hover:underline">Devolver</button>
+                                @if(auth()->user()->rol === 'admin')
+                                    <button wire:click="devolver({{ $asignacion->id }})" wire:confirm="¿Devolver este dispositivo?" class="text-yellow-500 hover:underline">Devolver</button>
+                                @else
+                                    <span class="text-green-600">Activo</span>
+                                @endif
                             @else
                                 <span class="text-gray-400">Devuelto</span>
                             @endif

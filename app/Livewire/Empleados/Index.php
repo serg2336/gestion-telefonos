@@ -16,6 +16,10 @@ class Index extends Component
 
     public function delete($id)
     {
+        if (auth()->user()->rol !== 'admin') {
+            abort(403);
+        }
+
         $empleado = Empleado::find($id);
         if ($empleado) {
             $empleado->delete();

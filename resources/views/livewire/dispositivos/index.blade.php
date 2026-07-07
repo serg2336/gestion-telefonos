@@ -1,7 +1,9 @@
 <div>
     <div class="flex justify-between items-center mb-4">
         <h1 class="text-2xl font-bold">Dispositivos</h1>
-        <a href="{{ route('dispositivos.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded">Nuevo Dispositivo</a>
+        @if(auth()->user()->rol === 'admin')
+            <a href="{{ route('dispositivos.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded">Nuevo Dispositivo</a>
+        @endif
     </div>
 
     @if (session()->has('message'))
@@ -41,13 +43,11 @@
                         </td>
                         <td class="px-4 py-2">{{ $dispositivo->fecha_compra?->format('d/m/Y') ?? '—' }}</td>
                         <td class="px-4 py-2 text-center">
-feature/crud-dispositivos
-                            <a href="{{ route('dispositivos.edit', $dispositivo->id) }}" class="text-blue-500 hover:underline">Editar</a>
-
                             <a href="{{ route('dispositivos.show', $dispositivo->id) }}" class="text-green-500 hover:underline">Ver</a>
-                            <a href="{{ route('dispositivos.edit', $dispositivo->id) }}" class="text-blue-500 hover:underline ml-2">Editar</a>
-develop
-                            <button wire:click="delete({{ $dispositivo->id }})" wire:confirm="¿Eliminar este dispositivo?" class="text-red-500 hover:underline ml-2">Eliminar</button>
+                            @if(auth()->user()->rol === 'admin')
+                                <a href="{{ route('dispositivos.edit', $dispositivo->id) }}" class="text-blue-500 hover:underline ml-2">Editar</a>
+                                <button wire:click="delete({{ $dispositivo->id }})" wire:confirm="¿Eliminar este dispositivo?" class="text-red-500 hover:underline ml-2">Eliminar</button>
+                            @endif
                         </td>
                     </tr>
                 @empty
