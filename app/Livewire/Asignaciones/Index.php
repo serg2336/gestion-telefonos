@@ -17,6 +17,10 @@ class Index extends Component
 
     public function devolver($id)
     {
+        if (auth()->user()->rol !== 'admin') {
+            abort(403);
+        }
+
         $asignacion = Asignacion::with('dispositivo')->findOrFail($id);
 
         if ($asignacion->estado !== 'activo') {
