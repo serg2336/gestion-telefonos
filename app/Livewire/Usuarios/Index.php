@@ -4,6 +4,9 @@ namespace App\Livewire\Usuarios;
 
 use App\Models\User;
 use Livewire\Component;
+use Livewire\Attributes\Layout;
+
+#[Layout('layouts.app')]
 
 class Index extends Component
 {

@@ -4,6 +4,9 @@ namespace App\Livewire\Departamentos;
 
 use App\Models\Departamento;
 use Livewire\Component;
+use Livewire\Attributes\Layout;
+
+#[Layout('layouts.app')]
 
 class Edit extends Component
 {
