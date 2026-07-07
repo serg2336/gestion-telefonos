@@ -81,15 +81,10 @@ new #[Layout('layouts.guest')] class extends Component
             </x-primary-button>
         </div>
 
-        <!-- Enlace a registro -->
-        @if (Route::has('register'))
-            <div class="mt-4 text-center text-sm text-gray-600">
-                ¿No tienes cuenta?
-                <a href="{{ route('register') }}" class="text-blue-600 hover:underline" wire:navigate>
-                    Regístrate aquí
-                </a>
-            </div>
-        @endif
+        <!-- Sin registro público -->
+        <div class="mt-4 text-center text-sm text-gray-500">
+            ¿Necesitas acceso? Contacta al administrador del sistema.
+        </div>
     </form>
     </form>
 
