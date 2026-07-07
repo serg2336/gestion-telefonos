@@ -12,13 +12,13 @@ class RegisterUser extends Component
     public $email = '';
     public $password = '';
     public $password_confirmation = '';
-    public $rol = 'user'; // Valor por defecto
+    public $rol = 'usuario';
 
     protected $rules = [
         'name' => 'required|string|max:255',
         'email' => 'required|email|unique:users,email',
         'password' => 'required|string|min:8|confirmed',
-        'rol' => 'required|in:user,admin',
+        'rol' => 'required|in:usuario,admin',
     ];
 
     public function register()

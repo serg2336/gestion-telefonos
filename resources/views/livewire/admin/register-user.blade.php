@@ -36,7 +36,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700">Rol</label>
                 <select wire:model="rol" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
-                    <option value="user">Usuario</option>
+                    <option value="usuario">Usuario</option>
                     <option value="admin">Administrador</option>
                 </select>
                 @error('rol') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
