@@ -1,15 +1,22 @@
 <div class="py-8 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-6">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6 border-b pb-4">Nueva Asignación</h1>
+    <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-sm p-6">
+        <div class="flex items-center gap-4 mb-6 border-b pb-4">
+            <a href="{{ route('asignaciones.index') }}" class="text-gray-500 hover:text-gray-700" title="Volver">
+                <i class="fas fa-arrow-left text-lg"></i>
+            </a>
+            <h1 class="text-xl font-bold text-gray-800">
+                <i class="fas fa-exchange-alt mr-2 text-blue-600"></i>Nueva Asignación
+            </h1>
+        </div>
 
         @if (session()->has('error'))
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                {{ session('error') }}
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4 text-sm">
+                <i class="fas fa-exclamation-circle mr-1.5"></i>{{ session('error') }}
             </div>
         @endif
 
         <form wire:submit.prevent="save">
-            <div class="grid grid-cols-1 gap-6">
+            <div class="space-y-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Empleado</label>
                     <select wire:model="empleado_id" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
@@ -40,9 +47,9 @@
             </div>
 
             <div class="flex justify-end items-center gap-4 mt-8 border-t pt-6">
-                <a href="{{ route('asignaciones.index') }}" class="text-gray-600 hover:text-gray-800 transition">Cancelar</a>
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg shadow transition">
-                    Asignar Dispositivo
+                <a href="{{ route('asignaciones.index') }}" class="text-gray-600 hover:text-gray-800 transition text-sm">Cancelar</a>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg shadow transition text-sm">
+                    <i class="fas fa-check-circle mr-1.5"></i>Asignar Dispositivo
                 </button>
             </div>
         </form>

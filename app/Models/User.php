@@ -13,16 +13,12 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use  HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
         'rol',
+        'empleado_id',
     ];
 
     /**
@@ -35,11 +31,11 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+    public function empleado()
+    {
+        return $this->belongsTo(Empleado::class);
+    }
+
     protected function casts(): array
     {
         return [

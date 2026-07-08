@@ -44,13 +44,15 @@ class Index extends Component
         $query = Asignacion::with(['empleado', 'dispositivo']);
 
         if ($this->search) {
-            $query->whereHas('empleado', function ($q) {
-                $q->where('primer_nombre', 'like', '%' . $this->search . '%')
-                  ->orWhere('apellido', 'like', '%' . $this->search . '%');
-            })->orWhereHas('dispositivo', function ($q) {
-                $q->where('marca', 'like', '%' . $this->search . '%')
-                  ->orWhere('modelo', 'like', '%' . $this->search . '%')
-                  ->orWhere('numero_serie', 'like', '%' . $this->search . '%');
+            $query->where(function ($q) {
+                $q->whereHas('empleado', function ($q) {
+                    $q->where('primer_nombre', 'like', '%' . $this->search . '%')
+                      ->orWhere('apellido', 'like', '%' . $this->search . '%');
+                })->orWhereHas('dispositivo', function ($q) {
+                    $q->where('marca', 'like', '%' . $this->search . '%')
+                      ->orWhere('modelo', 'like', '%' . $this->search . '%')
+                      ->orWhere('numero_serie', 'like', '%' . $this->search . '%');
+                });
             });
         }
 

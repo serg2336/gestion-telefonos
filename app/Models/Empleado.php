@@ -19,10 +19,18 @@ class Empleado extends Model
     ];
 
 
-    public function departamento() {
-    return $this->belongsTo(Departamento::class);
-}
-public function asignaciones() {
-    return $this->hasMany(Asignacion::class);
-}
+    public function departamento()
+    {
+        return $this->belongsTo(Departamento::class);
+    }
+
+    public function asignaciones()
+    {
+        return $this->hasMany(Asignacion::class);
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
 }
