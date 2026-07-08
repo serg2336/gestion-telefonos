@@ -15,8 +15,6 @@ class Create extends Component
     public $imei = '';
     public $estado = 'disponible';
     public $fecha_compra = '';
-    public $observaciones = '';
-
     protected $rules = [
         'marca' => 'required|string|max:255',
         'modelo' => 'required|string|max:255',
@@ -24,7 +22,6 @@ class Create extends Component
         'imei' => 'nullable|string|unique:dispositivos,imei|max:50',
         'estado' => 'required|in:disponible,asignado,mantenimiento,baja,bloqueado',
         'fecha_compra' => 'nullable|date',
-        'observaciones' => 'nullable|string|max:1000',
     ];
 
     public function save()
@@ -38,7 +35,6 @@ class Create extends Component
             'imei' => $this->imei,
             'estado' => $this->estado,
             'fecha_compra' => $this->fecha_compra ?: null,
-            'observaciones' => $this->observaciones,
         ]);
 
         session()->flash('message', 'Dispositivo creado correctamente.');

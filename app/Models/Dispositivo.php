@@ -20,7 +20,6 @@ class Dispositivo extends Model
         'imei',
         'estado',
         'fecha_compra',
-        'observaciones',
     ];
 
     protected $casts = [

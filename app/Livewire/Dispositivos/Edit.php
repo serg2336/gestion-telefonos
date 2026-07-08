@@ -16,8 +16,6 @@ class Edit extends Component
     public $imei;
     public $estado;
     public $fecha_compra;
-    public $observaciones;
-
     public function mount($id)
     {
         $dispositivo = Dispositivo::findOrFail($id);
@@ -28,7 +26,6 @@ class Edit extends Component
         $this->imei = $dispositivo->imei;
         $this->estado = $dispositivo->estado;
         $this->fecha_compra = $dispositivo->fecha_compra?->format('Y-m-d');
-        $this->observaciones = $dispositivo->observaciones;
     }
 
     public function update()
@@ -40,7 +37,6 @@ class Edit extends Component
             'imei' => 'nullable|string|unique:dispositivos,imei,' . $this->dispositivo_id . '|max:50',
             'estado' => 'required|in:disponible,asignado,mantenimiento,baja,bloqueado',
             'fecha_compra' => 'nullable|date',
-            'observaciones' => 'nullable|string|max:1000',
         ]);
 
         Dispositivo::find($this->dispositivo_id)->update([
@@ -50,7 +46,6 @@ class Edit extends Component
             'imei' => $this->imei,
             'estado' => $this->estado,
             'fecha_compra' => $this->fecha_compra ?: null,
-            'observaciones' => $this->observaciones,
         ]);
 
         session()->flash('message', 'Dispositivo actualizado correctamente.');

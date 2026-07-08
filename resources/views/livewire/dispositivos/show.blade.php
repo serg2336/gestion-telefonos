@@ -52,10 +52,6 @@
                     <dt class="text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha de Compra</dt>
                     <dd class="font-medium text-gray-900 mt-1">{{ $dispositivo->fecha_compra?->format('d/m/Y') ?? '—' }}</dd>
                 </div>
-                <div class="md:col-span-2 bg-gray-50 rounded-lg p-3">
-                    <dt class="text-xs font-medium text-gray-500 uppercase tracking-wider">Observaciones</dt>
-                    <dd class="font-medium text-gray-900 mt-1">{{ $dispositivo->observaciones ?? 'Sin observaciones' }}</dd>
-                </div>
             </dl>
         </div>
 
