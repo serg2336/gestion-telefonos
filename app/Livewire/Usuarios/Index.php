@@ -15,7 +15,7 @@ class Index extends Component
 
     public function mount()
     {
-        $this->users = User::all();
+        $this->users = User::with('empleado')->get();
         foreach ($this->users as $user) {
             $this->selectedRoles[$user->id] = $user->rol;
         }

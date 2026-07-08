@@ -18,14 +18,5 @@ class AdminUserSeeder extends Seeder
                 'rol' => 'admin',
             ]);
         }
-
-        if (!User::where('email', 'usuario@empresa.com')->exists()) {
-            User::create([
-                'name' => 'Usuario',
-                'email' => 'usuario@empresa.com',
-                'password' => Hash::make('password'),
-                'rol' => 'usuario',
-            ]);
-        }
     }
 }

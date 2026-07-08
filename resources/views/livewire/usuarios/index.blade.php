@@ -18,6 +18,7 @@
                     <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
                     <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
                     <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Empleado</th>
                     <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rol</th>
                     <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Acción</th>
                 </tr>
@@ -28,13 +29,27 @@
                         <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $user->id }}</td>
                         <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">{{ $user->name }}</td>
                         <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $user->email }}</td>
+                        <td class="px-4 py-3 whitespace-nowrap text-sm">
+                            @if ($user->empleado)
+                                <a href="{{ route('empleados.show', $user->empleado_id) }}" class="text-blue-600 hover:text-blue-800 hover:underline">
+                                    {{ $user->empleado->primer_nombre }} {{ $user->empleado->apellido }}
+                                </a>
+                            @else
+                                <span class="text-gray-400">—</span>
+                            @endif
+                        </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <select wire:model.live="selectedRoles.{{ $user->id }}" class="border rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 <option value="usuario">Usuario</option>
                                 <option value="admin">Administrador</option>
                             </select>
                         </td>
-                        <td class="px-4 py-3 whitespace-nowrap text-center">
+                        <td class="px-4 py-3 whitespace-nowrap text-center flex items-center justify-center gap-2">
+                            @if ($user->empleado)
+                                <a href="{{ route('empleados.show', $user->empleado_id) }}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded-lg text-xs font-medium transition shadow-sm">
+                                    <i class="fas fa-history mr-1"></i>Historial
+                                </a>
+                            @endif
                             <button wire:click="updateRole({{ $user->id }})" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-lg text-xs font-medium transition shadow-sm">
                                 <i class="fas fa-save mr-1"></i>Guardar
                             </button>
