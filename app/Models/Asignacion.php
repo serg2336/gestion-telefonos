@@ -13,6 +13,7 @@ class Asignacion extends Model
         'empleado_id',
         'fecha_asignacion',
         'fecha_devolucion',
+        'fecha_bloqueo',
         'estado',
         'observaciones',
     ];
@@ -20,6 +21,7 @@ class Asignacion extends Model
     protected $casts = [
         'fecha_asignacion' => 'datetime',
         'fecha_devolucion' => 'datetime',
+        'fecha_bloqueo' => 'datetime',
     ];
 
     public function dispositivo()

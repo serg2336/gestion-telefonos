@@ -52,7 +52,10 @@ class Index extends Component
             return;
         }
 
-        $asignacion->update(['estado' => 'pendiente_devolver']);
+        $asignacion->update([
+            'estado' => 'pendiente_devolver',
+            'fecha_bloqueo' => now(),
+        ]);
         $asignacion->dispositivo->update(['estado' => 'bloqueado']);
 
         session()->flash('message', 'Dispositivo marcado como pendiente de devolver. El IMEI ha sido bloqueado.');
@@ -71,7 +74,10 @@ class Index extends Component
             return;
         }
 
-        $asignacion->update(['estado' => 'activo']);
+        $asignacion->update([
+            'estado' => 'activo',
+            'fecha_bloqueo' => null,
+        ]);
         $asignacion->dispositivo->update(['estado' => 'asignado']);
 
         session()->flash('message', 'Dispositivo reactivado. El IMEI ya no está bloqueado.');
