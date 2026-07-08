@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 
 Route::view('/', 'welcome');
 
@@ -12,16 +11,11 @@ Route::view('profile', 'profile')
 require __DIR__.'/auth.php';
 
 Route::middleware(['auth'])->group(function () {
-    // Ruta de prueba
-        Route::get('/usuarios', \App\Livewire\Usuarios\Index::class)->name('usuarios.index')->middleware(['auth', 'role:admin']);
-       Route::get('/admin/register-user', \App\Livewire\Admin\RegisterUser::class)
-    ->middleware(['auth', 'role:admin'])
-    ->name('admin.register-user');
-    Route::get('/test-auth', function () {
-        return '✅ Autenticado correctamente';
-    });
+    Route::get('/usuarios', \App\Livewire\Usuarios\Index::class)->name('usuarios.index')->middleware(['auth', 'role:admin']);
+    Route::get('/admin/register-user', \App\Livewire\Admin\RegisterUser::class)
+        ->middleware(['auth', 'role:admin'])
+        ->name('admin.register-user');
 
-    // Dashboard
     Route::get('/dashboard', \App\Livewire\Dashboard::class)->name('dashboard');
 
     // CRUD Departamentos
@@ -45,13 +39,3 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/asignaciones', \App\Livewire\Asignaciones\Index::class)->name('asignaciones.index');
     Route::get('/asignaciones/create', \App\Livewire\Asignaciones\Create::class)->name('asignaciones.create')->middleware('role:admin');
 });
-
-// Rutas públicas
-Route::get('/prueba-ruta', function () {
-    return '¡La ruta de prueba funciona!';
-});
-
-Route::get('/salir', function () {
-    Auth::logout();
-    return redirect('/');
-})->name('logout.get');
