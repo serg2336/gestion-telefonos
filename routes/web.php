@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 
 Route::view('/', 'welcome');
 
@@ -13,10 +12,10 @@ require __DIR__.'/auth.php';
 
 Route::middleware(['auth'])->group(function () {
     // Ruta de prueba
-        Route::get('/usuarios', \App\Livewire\Usuarios\Index::class)->name('usuarios.index')->middleware(['auth', 'role:admin']);
-       Route::get('/admin/register-user', \App\Livewire\Admin\RegisterUser::class)
-    ->middleware(['auth', 'role:admin'])
-    ->name('admin.register-user');
+    Route::get('/usuarios', \App\Livewire\Usuarios\Index::class)->name('usuarios.index')->middleware(['auth', 'role:admin']);
+    Route::get('/admin/register-user', \App\Livewire\Admin\RegisterUser::class)
+        ->middleware(['auth', 'role:admin'])
+        ->name('admin.register-user');
     Route::get('/test-auth', function () {
         return '✅ Autenticado correctamente';
     });
@@ -50,8 +49,3 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/prueba-ruta', function () {
     return '¡La ruta de prueba funciona!';
 });
-
-Route::get('/salir', function () {
-    Auth::logout();
-    return redirect('/');
-})->name('logout.get');
