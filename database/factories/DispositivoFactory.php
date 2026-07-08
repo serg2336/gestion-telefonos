@@ -18,7 +18,6 @@ class DispositivoFactory extends Factory
             'imei' => $this->faker->unique()->numerify('##############'),
             'estado' => 'disponible',
             'fecha_compra' => $this->faker->date(),
-            'observaciones' => $this->faker->sentence(),
         ];
     }
 }
