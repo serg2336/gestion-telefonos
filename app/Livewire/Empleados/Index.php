@@ -20,11 +20,23 @@ class Index extends Component
             abort(403);
         }
 
-        $empleado = Empleado::find($id);
-        if ($empleado) {
-            $empleado->delete();
-            session()->flash('message', 'Empleado eliminado correctamente.');
+        $empleado = Empleado::withCount('asignaciones')->find($id);
+        if (!$empleado) {
+            return;
         }
+
+        if ($empleado->asignaciones_count > 0) {
+            session()->flash('error', 'No se puede eliminar el empleado porque tiene asignaciones registradas.');
+            return;
+        }
+
+        if ($empleado->user()->exists()) {
+            session()->flash('error', 'No se puede eliminar el empleado porque tiene un usuario vinculado.');
+            return;
+        }
+
+        $empleado->delete();
+        session()->flash('message', 'Empleado eliminado correctamente.');
     }
 
     public function render()

@@ -20,11 +20,18 @@ class Index extends Component
             abort(403);
         }
 
-        $departamento = Departamento::find($id);
-        if ($departamento) {
-            $departamento->delete();
-            session()->flash('message', 'Departamento eliminado correctamente.');
+        $departamento = Departamento::withCount('empleados')->find($id);
+        if (!$departamento) {
+            return;
         }
+
+        if ($departamento->empleados_count > 0) {
+            session()->flash('error', 'No se puede eliminar el departamento porque tiene empleados asignados.');
+            return;
+        }
+
+        $departamento->delete();
+        session()->flash('message', 'Departamento eliminado correctamente.');
     }
 
     public function render()

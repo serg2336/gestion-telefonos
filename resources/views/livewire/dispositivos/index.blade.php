@@ -14,6 +14,12 @@
         </div>
     @endif
 
+    @if (session()->has('error'))
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4 text-sm">
+            <i class="fas fa-exclamation-circle mr-1.5"></i>{{ session('error') }}
+        </div>
+    @endif
+
     <div class="mb-4">
         <input type="text" wire:model.live="search" placeholder="Buscar por marca, modelo, serie o IMEI..." 
                class="w-full border rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent">
