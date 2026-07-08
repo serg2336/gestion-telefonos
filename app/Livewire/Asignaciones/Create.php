@@ -25,6 +25,13 @@ class Create extends Component
     {
         $this->validate();
 
+        $empleado = Empleado::findOrFail($this->empleado_id);
+
+        if ($empleado->tienePendientes()) {
+            session()->flash('error', 'Este empleado tiene dispositivos pendientes de devolver. No se puede realizar una nueva asignación.');
+            return;
+        }
+
         $dispositivo = Dispositivo::findOrFail($this->dispositivo_id);
 
         if ($dispositivo->estado !== 'disponible') {

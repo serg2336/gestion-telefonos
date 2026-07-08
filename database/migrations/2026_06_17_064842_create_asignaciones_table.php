@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('empleado_id')->constrained('empleados')->onDelete('restrict');
             $table->timestamp('fecha_asignacion')->useCurrent();
              $table->timestamp('fecha_devolucion')->nullable();
-            $table->enum('estado', ['activo', 'devuelto'])->default('activo');
+            $table->enum('estado', ['activo', 'devuelto', 'pendiente_devolver'])->default('activo');
             $table->text('observaciones')->nullable();
             $table->timestamps();
         });

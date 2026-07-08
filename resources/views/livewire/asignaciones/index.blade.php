@@ -29,6 +29,7 @@
             <select wire:model.live="filtro_estado" class="w-full border rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                 <option value="">Todos los estados</option>
                 <option value="activo">Activo</option>
+                <option value="pendiente_devolver">Pendiente de Devolver</option>
                 <option value="devuelto">Devuelto</option>
             </select>
         </div>
@@ -54,18 +55,39 @@
                         <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $asignacion->fecha_asignacion->format('d/m/Y H:i') }}</td>
                         <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $asignacion->fecha_devolucion?->format('d/m/Y H:i') ?? '—' }}</td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <span class="px-2.5 py-1 text-xs font-semibold rounded-full {{ $asignacion->estado === 'activo' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-700' }}">
-                                {{ ucfirst($asignacion->estado) }}
+                            <span class="px-2.5 py-1 text-xs font-semibold rounded-full
+                                {{ $asignacion->estado === 'activo' ? 'bg-green-100 text-green-800' : '' }}
+                                {{ $asignacion->estado === 'pendiente_devolver' ? 'bg-red-100 text-red-800' : '' }}
+                                {{ $asignacion->estado === 'devuelto' ? 'bg-gray-100 text-gray-700' : '' }}">
+                                @if ($asignacion->estado === 'pendiente_devolver')
+                                    Pendiente
+                                @else
+                                    {{ ucfirst($asignacion->estado) }}
+                                @endif
                             </span>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap text-sm text-center">
                             @if ($asignacion->estado === 'activo')
                                 @if(auth()->user()->rol === 'admin')
-                                    <button wire:click="devolver({{ $asignacion->id }})" wire:confirm="¿Devolver este dispositivo?" class="text-yellow-600 hover:text-yellow-800 font-medium" title="Devolver">
+                                    <button wire:click="devolver({{ $asignacion->id }})" wire:confirm="¿Devolver este dispositivo?" class="text-yellow-600 hover:text-yellow-800 font-medium mx-1" title="Devolver">
                                         <i class="fas fa-undo-alt"></i> Devolver
+                                    </button>
+                                    <button wire:click="marcarPendiente({{ $asignacion->id }})" wire:confirm="¿Marcar como pendiente de devolver? El IMEI será bloqueado." class="text-red-600 hover:text-red-800 font-medium mx-1" title="Marcar pendiente">
+                                        <i class="fas fa-ban"></i> Bloquear
                                     </button>
                                 @else
                                     <span class="text-green-600 text-sm font-medium"><i class="fas fa-check-circle mr-1"></i>Activo</span>
+                                @endif
+                            @elseif ($asignacion->estado === 'pendiente_devolver')
+                                @if(auth()->user()->rol === 'admin')
+                                    <button wire:click="devolver({{ $asignacion->id }})" wire:confirm="¿Devolver este dispositivo?" class="text-yellow-600 hover:text-yellow-800 font-medium mx-1" title="Devolver">
+                                        <i class="fas fa-undo-alt"></i> Devolver
+                                    </button>
+                                    <button wire:click="quitarPendiente({{ $asignacion->id }})" wire:confirm="¿Reactivar esta asignación?" class="text-blue-600 hover:text-blue-800 font-medium mx-1" title="Reactivar">
+                                        <i class="fas fa-check-circle"></i> Reactivar
+                                    </button>
+                                @else
+                                    <span class="text-red-600 text-sm font-medium"><i class="fas fa-exclamation-triangle mr-1"></i>Pendiente</span>
                                 @endif
                             @else
                                 <span class="text-gray-400 text-sm"><i class="fas fa-check-double mr-1"></i>Devuelto</span>

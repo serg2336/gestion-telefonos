@@ -17,7 +17,7 @@ return new class extends Migration
            $table->string('modelo');
             $table->string('numero_serie')->unique();
             $table->string('imei')->unique()->nullable();
-            $table->enum('estado', ['disponible', 'asignado', 'mantenimiento', 'baja'])->default('disponible');
+            $table->enum('estado', ['disponible', 'asignado', 'mantenimiento', 'baja', 'bloqueado'])->default('disponible');
             $table->date('fecha_compra')->nullable();
            $table->text('observaciones')->nullable();
            $table->softDeletes(); // Eliminación lógica

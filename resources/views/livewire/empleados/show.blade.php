@@ -14,6 +14,15 @@
             @endif
         </div>
 
+        @php $tienePendientes = $empleado->tienePendientes(); @endphp
+
+        @if ($tienePendientes)
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4 text-sm flex items-center gap-2">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>Este empleado tiene dispositivos pendientes de devolver. No puede recibir nuevas asignaciones hasta que regularice su situación.</span>
+            </div>
+        @endif
+
         <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
             <h2 class="text-lg font-semibold text-gray-700 mb-4 border-b pb-2">
                 <i class="fas fa-info-circle mr-2 text-blue-500"></i>Información del Empleado
@@ -70,8 +79,15 @@
                                     <td class="px-4 py-3 text-sm text-gray-600">{{ $asignacion->fecha_asignacion->format('d/m/Y H:i') }}</td>
                                     <td class="px-4 py-3 text-sm text-gray-600">{{ $asignacion->fecha_devolucion?->format('d/m/Y H:i') ?? '—' }}</td>
                                     <td class="px-4 py-3">
-                                        <span class="px-2.5 py-1 text-xs font-semibold rounded-full {{ $asignacion->estado === 'activo' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-700' }}">
-                                            {{ ucfirst($asignacion->estado) }}
+                                        <span class="px-2.5 py-1 text-xs font-semibold rounded-full
+                                            {{ $asignacion->estado === 'activo' ? 'bg-green-100 text-green-800' : '' }}
+                                            {{ $asignacion->estado === 'pendiente_devolver' ? 'bg-red-100 text-red-800' : '' }}
+                                            {{ $asignacion->estado === 'devuelto' ? 'bg-gray-100 text-gray-700' : '' }}">
+                                            @if ($asignacion->estado === 'pendiente_devolver')
+                                                Pendiente
+                                            @else
+                                                {{ ucfirst($asignacion->estado) }}
+                                            @endif
                                         </span>
                                     </td>
                                     <td class="px-4 py-3 text-sm text-gray-600">{{ $asignacion->observaciones ?? '—' }}</td>

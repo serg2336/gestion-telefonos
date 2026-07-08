@@ -33,4 +33,14 @@ class Empleado extends Model
     {
         return $this->hasOne(User::class);
     }
+
+    public function asignacionesPendientes()
+    {
+        return $this->asignaciones()->whereIn('estado', ['activo', 'pendiente_devolver']);
+    }
+
+    public function tienePendientes(): bool
+    {
+        return $this->asignacionesPendientes()->exists();
+    }
 }

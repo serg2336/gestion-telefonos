@@ -30,12 +30,15 @@ class Index extends Component
     public function render()
     {
         try {
-            $empleados = Empleado::where('primer_nombre', 'like', '%' . $this->search . '%')
-                                 ->orWhere('apellido', 'like', '%' . $this->search . '%')
-                                 ->orWhere('email', 'like', '%' . $this->search . '%')
-                                 ->orWhere('telefono', 'like', '%' . $this->search . '%')
-                                 ->orWhere('identificacion', 'like', '%' . $this->search . '%')
-                                 ->paginate(10);
+            $empleados = Empleado::withCount(['asignaciones as pendientes_count' => function ($q) {
+                    $q->whereIn('estado', ['activo', 'pendiente_devolver']);
+                }])
+                ->where('primer_nombre', 'like', '%' . $this->search . '%')
+                ->orWhere('apellido', 'like', '%' . $this->search . '%')
+                ->orWhere('email', 'like', '%' . $this->search . '%')
+                ->orWhere('telefono', 'like', '%' . $this->search . '%')
+                ->orWhere('identificacion', 'like', '%' . $this->search . '%')
+                ->paginate(10);
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
