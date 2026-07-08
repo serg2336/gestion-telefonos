@@ -39,12 +39,18 @@ class Index extends Component
 
     public function render()
     {
-        $dispositivos = Dispositivo::where('marca', 'like', '%' . $this->search . '%')
-            ->orWhere('modelo', 'like', '%' . $this->search . '%')
-            ->orWhere('numero_serie', 'like', '%' . $this->search . '%')
-            ->orWhere('imei', 'like', '%' . $this->search . '%')
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+        $dispositivos = Dispositivo::orderBy('created_at', 'desc');
+
+        if ($this->search) {
+            $dispositivos->where(function ($q) {
+                $q->where('marca', 'like', '%' . $this->search . '%')
+                  ->orWhere('modelo', 'like', '%' . $this->search . '%')
+                  ->orWhere('numero_serie', 'like', '%' . $this->search . '%')
+                  ->orWhere('imei', 'like', '%' . $this->search . '%');
+            });
+        }
+
+        $dispositivos = $dispositivos->paginate(10);
 
         return view('livewire.dispositivos.index', compact('dispositivos'));
     }

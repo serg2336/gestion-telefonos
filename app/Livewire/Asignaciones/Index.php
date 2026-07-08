@@ -95,7 +95,8 @@ class Index extends Component
                 })->orWhereHas('dispositivo', function ($q) {
                     $q->where('marca', 'like', '%' . $this->search . '%')
                       ->orWhere('modelo', 'like', '%' . $this->search . '%')
-                      ->orWhere('numero_serie', 'like', '%' . $this->search . '%');
+                      ->orWhere('numero_serie', 'like', '%' . $this->search . '%')
+                      ->orWhere('imei', 'like', '%' . $this->search . '%');
                 });
             });
         }
