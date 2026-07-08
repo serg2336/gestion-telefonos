@@ -29,25 +29,29 @@ new class extends Component
                         <i class="fas fa-chart-pie mr-1.5"></i>Panel
                     </x-nav-link>
 
-                    <x-nav-link :href="route('empleados.index')" :active="request()->routeIs('empleados.*')" wire:navigate>
-                        <i class="fas fa-users mr-1.5"></i>Empleados
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('dispositivos.index')" :active="request()->routeIs('dispositivos.*')" wire:navigate>
-                        <i class="fas fa-tablet-alt mr-1.5"></i>Dispositivos
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('asignaciones.index')" :active="request()->routeIs('asignaciones.*')" wire:navigate>
-                        <i class="fas fa-exchange-alt mr-1.5"></i>Asignaciones
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('departamentos.index')" :active="request()->routeIs('departamentos.*')" wire:navigate>
-                        <i class="fas fa-building mr-1.5"></i>Departamentos
-                    </x-nav-link>
-
                     @if(auth()->user()->rol === 'admin')
+                        <x-nav-link :href="route('empleados.index')" :active="request()->routeIs('empleados.*')" wire:navigate>
+                            <i class="fas fa-users mr-1.5"></i>Empleados
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('dispositivos.index')" :active="request()->routeIs('dispositivos.*')" wire:navigate>
+                            <i class="fas fa-tablet-alt mr-1.5"></i>Dispositivos
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('asignaciones.index')" :active="request()->routeIs('asignaciones.*')" wire:navigate>
+                            <i class="fas fa-exchange-alt mr-1.5"></i>Asignaciones
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('departamentos.index')" :active="request()->routeIs('departamentos.*')" wire:navigate>
+                            <i class="fas fa-building mr-1.5"></i>Departamentos
+                        </x-nav-link>
+
                         <x-nav-link :href="route('admin.register-user')" :active="request()->routeIs('admin.register-user')" wire:navigate>
                             <i class="fas fa-user-plus mr-1.5"></i>Registrar
+                        </x-nav-link>
+                    @else
+                        <x-nav-link :href="route('mi-dispositivo')" :active="request()->routeIs('mi-dispositivo')" wire:navigate>
+                            <i class="fas fa-mobile-alt mr-1.5"></i>Mi Dispositivo
                         </x-nav-link>
                     @endif
                 </div>
@@ -109,29 +113,33 @@ new class extends Component
                 <i class="fas fa-chart-pie mr-2 w-5 text-center"></i>Panel
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('empleados.index')" :active="request()->routeIs('empleados.*')" wire:navigate>
-                <i class="fas fa-users mr-2 w-5 text-center"></i>Empleados
-            </x-responsive-nav-link>
-
-            <x-responsive-nav-link :href="route('dispositivos.index')" :active="request()->routeIs('dispositivos.*')" wire:navigate>
-                <i class="fas fa-tablet-alt mr-2 w-5 text-center"></i>Dispositivos
-            </x-responsive-nav-link>
-
-            <x-responsive-nav-link :href="route('asignaciones.index')" :active="request()->routeIs('asignaciones.*')" wire:navigate>
-                <i class="fas fa-exchange-alt mr-2 w-5 text-center"></i>Asignaciones
-            </x-responsive-nav-link>
-
-            <x-responsive-nav-link :href="route('departamentos.index')" :active="request()->routeIs('departamentos.*')" wire:navigate>
-                <i class="fas fa-building mr-2 w-5 text-center"></i>Departamentos
-            </x-responsive-nav-link>
-
             @if(auth()->user()->rol === 'admin')
+                <x-responsive-nav-link :href="route('empleados.index')" :active="request()->routeIs('empleados.*')" wire:navigate>
+                    <i class="fas fa-users mr-2 w-5 text-center"></i>Empleados
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('dispositivos.index')" :active="request()->routeIs('dispositivos.*')" wire:navigate>
+                    <i class="fas fa-tablet-alt mr-2 w-5 text-center"></i>Dispositivos
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('asignaciones.index')" :active="request()->routeIs('asignaciones.*')" wire:navigate>
+                    <i class="fas fa-exchange-alt mr-2 w-5 text-center"></i>Asignaciones
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('departamentos.index')" :active="request()->routeIs('departamentos.*')" wire:navigate>
+                    <i class="fas fa-building mr-2 w-5 text-center"></i>Departamentos
+                </x-responsive-nav-link>
+
                 <x-responsive-nav-link :href="route('admin.register-user')" :active="request()->routeIs('admin.register-user')" wire:navigate>
                     <i class="fas fa-user-plus mr-2 w-5 text-center"></i>Registrar Usuario
                 </x-responsive-nav-link>
 
                 <x-responsive-nav-link :href="route('usuarios.index')" :active="request()->routeIs('usuarios.*')" wire:navigate>
                     <i class="fas fa-users-cog mr-2 w-5 text-center"></i>Usuarios
+                </x-responsive-nav-link>
+            @else
+                <x-responsive-nav-link :href="route('mi-dispositivo')" :active="request()->routeIs('mi-dispositivo')" wire:navigate>
+                    <i class="fas fa-mobile-alt mr-2 w-5 text-center"></i>Mi Dispositivo
                 </x-responsive-nav-link>
             @endif
         </div>
