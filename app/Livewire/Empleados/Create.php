@@ -21,7 +21,7 @@ class Create extends Component
         'apellido' => 'required|string|max:255',
         'email' => 'required|email|unique:empleados,email',
         'telefono' => 'required|string|max:20',
-        'identificacion' => 'nullable|string|max:50',
+        'identificacion' => 'required|string|max:50|unique:empleados,identificacion',
         'departamento_id' => 'nullable|exists:departamentos,id',
     ];
 
