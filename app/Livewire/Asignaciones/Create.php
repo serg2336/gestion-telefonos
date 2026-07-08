@@ -7,6 +7,7 @@ use App\Models\Dispositivo;
 use App\Models\Empleado;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Illuminate\Validation\Rule;
 
 #[Layout('layouts.app')]
 class Create extends Component
@@ -15,11 +16,17 @@ class Create extends Component
     public $dispositivo_id = '';
     public $observaciones = '';
 
-    protected $rules = [
-        'empleado_id' => 'required|exists:empleados,id',
-        'dispositivo_id' => 'required|exists:dispositivos,id',
-        'observaciones' => 'nullable|string|max:1000',
-    ];
+    protected function rules()
+    {
+        return [
+            'empleado_id' => 'required|exists:empleados,id',
+            'dispositivo_id' => [
+                'required',
+                Rule::exists('dispositivos', 'id')->where('estado', 'disponible'),
+            ],
+            'observaciones' => 'nullable|string|max:1000',
+        ];
+    }
 
     public function save()
     {
