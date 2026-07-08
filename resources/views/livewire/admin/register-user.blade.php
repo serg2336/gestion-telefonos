@@ -65,6 +65,47 @@
                 @error('rol') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Empleado vinculado</label>
+                <div x-data="{
+                    open: false,
+                    query: '',
+                    items: {{ $empleados->map(fn($e) => ['id' => (string)$e->id, 'label' => $e->primer_nombre.' '.$e->apellido.' ('.$e->identificacion.')'])->toJson() }},
+                    get filtered() {
+                        if (!this.query) return this.items;
+                        return this.items.filter(i => i.label.toLowerCase().includes(this.query.toLowerCase()));
+                    },
+                    select(item) {
+                        $wire.set('empleado_id', item.id);
+                        this.query = item.label;
+                        this.open = false;
+                    }
+                }" class="relative">
+                    <input type="text" x-model="query" @focus="open = true" @click.outside="open = false"
+                        placeholder="Buscar empleado (opcional)..."
+                        class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <input type="hidden" wire:model="empleado_id">
+                    <div x-show="open" x-cloak
+                        class="absolute z-10 mt-1 w-full bg-white border rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                        <div @click="select({id: null, label: 'Sin vínculo'}); open = false"
+                            class="px-4 py-2 hover:bg-blue-50 cursor-pointer text-sm text-gray-500 border-b border-gray-100">
+                            Sin vínculo
+                        </div>
+                        <template x-for="item in filtered" :key="item.id">
+                            <div @click="select(item)"
+                                class="px-4 py-2 hover:bg-blue-50 cursor-pointer text-sm border-b border-gray-100 last:border-0"
+                                x-text="item.label">
+                            </div>
+                        </template>
+                        <div x-show="filtered.length === 0"
+                            class="px-4 py-2 text-gray-400 text-sm text-center">
+                            Sin resultados
+                        </div>
+                    </div>
+                </div>
+                @error('empleado_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
             <div class="flex justify-end items-center gap-4 mt-6 border-t pt-6">
                 <a href="{{ route('dashboard') }}" class="text-gray-600 hover:text-gray-800 transition text-sm">Cancelar</a>
                 <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg shadow transition text-sm">
