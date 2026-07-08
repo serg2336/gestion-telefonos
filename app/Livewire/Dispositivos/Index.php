@@ -20,11 +20,21 @@ class Index extends Component
             abort(403);
         }
 
-        $dispositivo = Dispositivo::find($id);
-        if ($dispositivo) {
-            $dispositivo->delete();
-            session()->flash('message', 'Dispositivo eliminado correctamente.');
+        $dispositivo = Dispositivo::withCount(['asignaciones as activas_count' => function ($q) {
+            $q->whereIn('estado', ['activo', 'pendiente_devolver']);
+        }])->find($id);
+
+        if (!$dispositivo) {
+            return;
         }
+
+        if ($dispositivo->activas_count > 0) {
+            session()->flash('error', 'No se puede eliminar el dispositivo porque tiene asignaciones activas.');
+            return;
+        }
+
+        $dispositivo->delete();
+        session()->flash('message', 'Dispositivo eliminado correctamente.');
     }
 
     public function render()
