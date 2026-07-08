@@ -38,7 +38,7 @@ class Edit extends Component
             'apellido' => 'required|string|max:255',
             'email' => 'required|email|unique:empleados,email,' . $this->empleado_id,
             'telefono' => 'required|string|max:20',
-            'identificacion' => 'nullable|string|max:50',
+            'identificacion' => 'required|string|max:50|unique:empleados,identificacion,' . $this->empleado_id,
             'departamento_id' => 'nullable|exists:departamentos,id',
         ];
     }
