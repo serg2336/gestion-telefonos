@@ -38,7 +38,7 @@ class Edit extends Component
             'modelo' => 'required|string|max:255',
             'numero_serie' => 'required|string|unique:dispositivos,numero_serie,' . $this->dispositivo_id,
             'imei' => 'nullable|string|unique:dispositivos,imei,' . $this->dispositivo_id . '|max:50',
-            'estado' => 'required|in:disponible,asignado,mantenimiento,baja',
+            'estado' => 'required|in:disponible,asignado,mantenimiento,baja,bloqueado',
             'fecha_compra' => 'nullable|date',
             'observaciones' => 'nullable|string|max:1000',
         ]);

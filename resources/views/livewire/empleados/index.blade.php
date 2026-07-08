@@ -34,7 +34,14 @@
             <tbody class="bg-white divide-y divide-gray-200">
                 @forelse ($empleados as $empleado)
                     <tr class="hover:bg-gray-50 transition">
-                        <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">{{ $empleado->primer_nombre }} {{ $empleado->apellido }}</td>
+                        <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
+                            {{ $empleado->primer_nombre }} {{ $empleado->apellido }}
+                            @if ($empleado->pendientes_count > 0)
+                                <span class="ml-2 px-2 py-0.5 text-xs font-semibold bg-red-100 text-red-800 rounded-full">
+                                    {{ $empleado->pendientes_count }} pendiente(s)
+                                </span>
+                            @endif
+                        </td>
                         <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $empleado->email }}</td>
                         <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $empleado->telefono }}</td>
                         <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{{ $empleado->identificacion }}</td>

@@ -42,6 +42,7 @@
                         <option value="asignado">Asignado</option>
                         <option value="mantenimiento">Mantenimiento</option>
                         <option value="baja">Baja</option>
+                        <option value="bloqueado">Bloqueado</option>
                     </select>
                     @error('estado') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
