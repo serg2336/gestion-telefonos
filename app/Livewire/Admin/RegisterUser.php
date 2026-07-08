@@ -4,6 +4,7 @@ namespace App\Livewire\Admin;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 
@@ -17,12 +18,15 @@ class RegisterUser extends Component
     public $password_confirmation = '';
     public $rol = 'usuario';
 
-    protected $rules = [
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email',
-        'password' => 'required|string|min:8|confirmed',
-        'rol' => 'required|in:usuario,admin',
-    ];
+    protected function rules()
+    {
+        return [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => ['required', 'string', 'confirmed', Password::min(8)->mixedCase()->symbols()],
+            'rol' => 'required|in:usuario,admin',
+        ];
+    }
 
     public function register()
     {
