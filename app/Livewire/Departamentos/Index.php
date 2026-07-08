@@ -29,12 +29,17 @@ class Index extends Component
 
     public function render()
     {
-           
-     // 👈 Esto detendrá la ejecución y mostrará los datos.
-        $departamentos = Departamento::where('nombre', 'like', '%' . $this->search . '%')
-                                     ->orWhere('descripcion', 'like', '%' . $this->search . '%')
-                                     ->paginate(10);
-     
+        $departamentos = Departamento::query();
+
+        if ($this->search) {
+            $departamentos->where(function ($q) {
+                $q->where('nombre', 'like', '%' . $this->search . '%')
+                  ->orWhere('descripcion', 'like', '%' . $this->search . '%');
+            });
+        }
+
+        $departamentos = $departamentos->paginate(10);
+
         return view('livewire.departamentos.index', compact('departamentos'));
     }
 }
