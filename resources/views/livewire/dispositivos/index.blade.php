@@ -58,7 +58,14 @@
                                 <a href="{{ route('dispositivos.edit', $dispositivo->id) }}" class="text-blue-600 hover:text-blue-800 mx-1" title="Editar">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <button wire:click="delete({{ $dispositivo->id }})" wire:confirm="¿Eliminar este dispositivo?" class="text-red-600 hover:text-red-800 mx-1" title="Eliminar">
+                                <button x-data x-on:click.prevent="$dispatch('open-confirmation-modal', {
+                                    action: 'delete',
+                                    params: [{{ $dispositivo->id }}],
+                                    title: 'Eliminar dispositivo',
+                                    message: '¿Está seguro de eliminar {{ $dispositivo->marca }} {{ $dispositivo->modelo }} ({{ $dispositivo->numero_serie }})? Esta acción no se puede deshacer.',
+                                    confirmText: 'Eliminar',
+                                    confirmClass: 'bg-red-600 hover:bg-red-700'
+                                })" class="text-red-600 hover:text-red-800 mx-1" title="Eliminar">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             @endif
@@ -85,4 +92,6 @@
     <div class="mt-4">
         {{ $dispositivos->links() }}
     </div>
+
+    <x-confirmation-modal />
 </div>

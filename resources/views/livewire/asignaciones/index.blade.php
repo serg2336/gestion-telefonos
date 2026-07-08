@@ -69,10 +69,24 @@
                         <td class="px-4 py-3 whitespace-nowrap text-sm text-center">
                             @if ($asignacion->estado === 'activo')
                                 @if(auth()->user()->rol === 'admin')
-                                    <button wire:click="devolver({{ $asignacion->id }})" wire:confirm="¿Devolver este dispositivo?" class="text-yellow-600 hover:text-yellow-800 font-medium mx-1" title="Devolver">
+                                    <button x-data x-on:click.prevent="$dispatch('open-confirmation-modal', {
+                                        action: 'devolver',
+                                        params: [{{ $asignacion->id }}],
+                                        title: 'Devolver dispositivo',
+                                        message: '¿Devolver {{ $asignacion->dispositivo->marca }} {{ $asignacion->dispositivo->modelo }} asignado a {{ $asignacion->empleado->primer_nombre }} {{ $asignacion->empleado->apellido }}?',
+                                        confirmText: 'Devolver',
+                                        confirmClass: 'bg-yellow-600 hover:bg-yellow-700'
+                                    })" class="text-yellow-600 hover:text-yellow-800 font-medium mx-1" title="Devolver">
                                         <i class="fas fa-undo-alt"></i> Devolver
                                     </button>
-                                    <button wire:click="marcarPendiente({{ $asignacion->id }})" wire:confirm="¿Marcar como pendiente de devolver? El IMEI será bloqueado." class="text-red-600 hover:text-red-800 font-medium mx-1" title="Marcar pendiente">
+                                    <button x-data x-on:click.prevent="$dispatch('open-confirmation-modal', {
+                                        action: 'marcarPendiente',
+                                        params: [{{ $asignacion->id }}],
+                                        title: 'Bloquear dispositivo',
+                                        message: '¿Marcar como pendiente de devolver {{ $asignacion->dispositivo->marca }} {{ $asignacion->dispositivo->modelo }} de {{ $asignacion->empleado->primer_nombre }} {{ $asignacion->empleado->apellido }}? El IMEI será bloqueado y el empleado no podrá recibir nuevas asignaciones.',
+                                        confirmText: 'Bloquear',
+                                        confirmClass: 'bg-red-600 hover:bg-red-700'
+                                    })" class="text-red-600 hover:text-red-800 font-medium mx-1" title="Marcar pendiente">
                                         <i class="fas fa-ban"></i> Bloquear
                                     </button>
                                 @else
@@ -80,10 +94,24 @@
                                 @endif
                             @elseif ($asignacion->estado === 'pendiente_devolver')
                                 @if(auth()->user()->rol === 'admin')
-                                    <button wire:click="devolver({{ $asignacion->id }})" wire:confirm="¿Devolver este dispositivo?" class="text-yellow-600 hover:text-yellow-800 font-medium mx-1" title="Devolver">
+                                    <button x-data x-on:click.prevent="$dispatch('open-confirmation-modal', {
+                                        action: 'devolver',
+                                        params: [{{ $asignacion->id }}],
+                                        title: 'Devolver dispositivo',
+                                        message: '¿Devolver {{ $asignacion->dispositivo->marca }} {{ $asignacion->dispositivo->modelo }} de {{ $asignacion->empleado->primer_nombre }} {{ $asignacion->empleado->apellido }}? Se desbloqueará el IMEI y el empleado podrá recibir nuevas asignaciones.',
+                                        confirmText: 'Devolver',
+                                        confirmClass: 'bg-yellow-600 hover:bg-yellow-700'
+                                    })" class="text-yellow-600 hover:text-yellow-800 font-medium mx-1" title="Devolver">
                                         <i class="fas fa-undo-alt"></i> Devolver
                                     </button>
-                                    <button wire:click="quitarPendiente({{ $asignacion->id }})" wire:confirm="¿Reactivar esta asignación?" class="text-blue-600 hover:text-blue-800 font-medium mx-1" title="Reactivar">
+                                    <button x-data x-on:click.prevent="$dispatch('open-confirmation-modal', {
+                                        action: 'quitarPendiente',
+                                        params: [{{ $asignacion->id }}],
+                                        title: 'Reactivar asignación',
+                                        message: '¿Reactivar la asignación de {{ $asignacion->dispositivo->marca }} {{ $asignacion->dispositivo->modelo }} a {{ $asignacion->empleado->primer_nombre }} {{ $asignacion->empleado->apellido }}? El IMEI dejará de estar bloqueado.',
+                                        confirmText: 'Reactivar',
+                                        confirmClass: 'bg-blue-600 hover:bg-blue-700'
+                                    })" class="text-blue-600 hover:text-blue-800 font-medium mx-1" title="Reactivar">
                                         <i class="fas fa-check-circle"></i> Reactivar
                                     </button>
                                 @else
@@ -115,4 +143,6 @@
     <div class="mt-4">
         {{ $asignaciones->links() }}
     </div>
+
+    <x-confirmation-modal />
 </div>
