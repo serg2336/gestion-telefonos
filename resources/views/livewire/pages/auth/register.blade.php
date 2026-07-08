@@ -36,11 +36,6 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
-    <div>
-    <!-- ESTE ES EL ARCHIVO CORRECTO - SI VES ESTO, ESTÁS EDITANDO EL ARCHIVO ADECUADO -->
-    <h1>Prueba de archivo</h1>
-    <!-- ... resto del formulario ... -->
-</div>
     <form wire:submit="register">
         <!-- Nombre -->
         <div>
@@ -59,8 +54,22 @@ new #[Layout('layouts.guest')] class extends Component
         <!-- Contraseña -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Contraseña')" />
-            <x-text-input wire:model="password" id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
+            <x-text-input wire:model.live="password" id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            <div class="mt-2 space-y-1 text-sm">
+                <div :class="$wire.password.length >= 8 ? 'text-green-600' : 'text-red-500'" x-data>
+                    <span x-text="$wire.password.length >= 8 ? '✓' : '✗'"></span>
+                    Mínimo 8 caracteres
+                </div>
+                <div :class="/[A-Z]/.test($wire.password) ? 'text-green-600' : 'text-red-500'" x-data>
+                    <span x-text="/[A-Z]/.test($wire.password) ? '✓' : '✗'"></span>
+                    Al menos 1 mayúscula
+                </div>
+                <div :class="/[^a-zA-Z0-9\u00f1\u00d1]/.test($wire.password) ? 'text-green-600' : 'text-red-500'" x-data>
+                    <span x-text="/[^a-zA-Z0-9\u00f1\u00d1]/.test($wire.password) ? '✓' : '✗'"></span>
+                    Al menos 1 símbolo
+                </div>
+            </div>
         </div>
 
         <!-- Confirmar Contraseña -->

@@ -23,8 +23,22 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Contraseña</label>
-                <input type="password" wire:model="password" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+                <input type="password" wire:model.live="password" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
                 @error('password') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                <div class="mt-2 space-y-1 text-sm">
+                    <div :class="$wire.password.length >= 8 ? 'text-green-600' : 'text-red-500'" x-data>
+                        <span x-text="$wire.password.length >= 8 ? '✓' : '✗'"></span>
+                        Mínimo 8 caracteres
+                    </div>
+                    <div :class="/[A-Z]/.test($wire.password) ? 'text-green-600' : 'text-red-500'" x-data>
+                        <span x-text="/[A-Z]/.test($wire.password) ? '✓' : '✗'"></span>
+                        Al menos 1 mayúscula
+                    </div>
+                    <div :class="/[^a-zA-Z0-9\u00f1\u00d1]/.test($wire.password) ? 'text-green-600' : 'text-red-500'" x-data>
+                        <span x-text="/[^a-zA-Z0-9\u00f1\u00d1]/.test($wire.password) ? '✓' : '✗'"></span>
+                        Al menos 1 símbolo
+                    </div>
+                </div>
             </div>
 
             <div>
