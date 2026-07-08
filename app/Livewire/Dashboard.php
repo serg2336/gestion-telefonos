@@ -6,36 +6,58 @@ use App\Models\Empleado;
 use App\Models\Dispositivo;
 use App\Models\Asignacion;
 use Livewire\Component;
-use Livewire\Attributes\Layout; // 👈 Importante
+use Livewire\Attributes\Layout;
 
-#[Layout('layouts.app')] // 👈 Usa el layout de Breeze (con menú y header)
+#[Layout('layouts.app')]
 class Dashboard extends Component
 {
     public function render()
     {
-        $totalEmpleados = Empleado::count();
-        $totalDispositivos = Dispositivo::count();
-        $asignacionesActivas = Asignacion::where('estado', 'activo')->count();
+        $user = auth()->user();
 
-        $ultimasAsignaciones = Asignacion::with(['empleado', 'dispositivo'])
-            ->latest()
-            ->take(5)
-            ->get();
+        if ($user->rol === 'admin') {
+            $totalEmpleados = Empleado::count();
+            $totalDispositivos = Dispositivo::count();
+            $asignacionesActivas = Asignacion::where('estado', 'activo')->count();
 
-        $asignaciones = Asignacion::select('fecha_asignacion')->get();
-        $agrupadas = $asignaciones->groupBy(fn($item) => $item->fecha_asignacion->format('Y-m'))
-            ->sortKeys();
+            $ultimasAsignaciones = Asignacion::with(['empleado', 'dispositivo'])
+                ->latest()
+                ->take(5)
+                ->get();
 
-        $labels = $agrupadas->keys()->toArray();
-        $data = $agrupadas->map(fn($group) => $group->count())->values()->toArray();
+            $asignaciones = Asignacion::select('fecha_asignacion')->get();
+            $agrupadas = $asignaciones->groupBy(fn($item) => $item->fecha_asignacion->format('Y-m'))
+                ->sortKeys();
+
+            $labels = $agrupadas->keys()->toArray();
+            $data = $agrupadas->map(fn($group) => $group->count())->values()->toArray();
+
+            return view('livewire.dashboard', [
+                'totalEmpleados' => $totalEmpleados,
+                'totalDispositivos' => $totalDispositivos,
+                'asignacionesActivas' => $asignacionesActivas,
+                'ultimasAsignaciones' => $ultimasAsignaciones,
+                'labels' => $labels,
+                'data' => $data,
+                'esAdmin' => true,
+            ]);
+        }
+
+        $empleado = $user->empleado;
+        $asignacionActiva = null;
+
+        if ($empleado) {
+            $asignacionActiva = $empleado->asignaciones()
+                ->with('dispositivo')
+                ->whereIn('estado', ['activo', 'pendiente_devolver'])
+                ->latest('fecha_asignacion')
+                ->first();
+        }
 
         return view('livewire.dashboard', [
-            'totalEmpleados' => $totalEmpleados,
-            'totalDispositivos' => $totalDispositivos,
-            'asignacionesActivas' => $asignacionesActivas,
-            'ultimasAsignaciones' => $ultimasAsignaciones,
-            'labels' => $labels,
-            'data' => $data,
+            'esAdmin' => false,
+            'empleado' => $empleado,
+            'asignacionActiva' => $asignacionActiva,
         ]);
     }
 }
