@@ -14,6 +14,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\Empleado::factory(20)->create();
+
+        $this->call([
+            UserSeeder::class,
+        ]);
+
         \App\Models\Dispositivo::factory(30)->create();
 
         $empleados = \App\Models\Empleado::all();
