@@ -19,23 +19,75 @@
             <div class="space-y-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Empleado</label>
-                    <select wire:model="empleado_id" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        <option value="">Seleccionar empleado...</option>
-                        @foreach ($empleados as $empleado)
-                            <option value="{{ $empleado->id }}">{{ $empleado->primer_nombre }} {{ $empleado->apellido }} ({{ $empleado->identificacion }})</option>
-                        @endforeach
-                    </select>
+                    <div x-data="{
+                        open: false,
+                        query: '',
+                        items: {{ $empleados->map(fn($e) => ['id' => (string)$e->id, 'label' => $e->primer_nombre.' '.$e->apellido.' ('.$e->identificacion.')'])->toJson() }},
+                        get filtered() {
+                            if (!this.query) return this.items;
+                            return this.items.filter(i => i.label.toLowerCase().includes(this.query.toLowerCase()));
+                        },
+                        select(item) {
+                            $wire.set('empleado_id', item.id);
+                            this.query = item.label;
+                            this.open = false;
+                        }
+                    }" class="relative">
+                        <input type="text" x-model="query" @focus="open = true" @click.outside="open = false"
+                            placeholder="Buscar empleado..."
+                            class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <input type="hidden" wire:model="empleado_id">
+                        <div x-show="open" x-cloak
+                            class="absolute z-10 mt-1 w-full bg-white border rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                            <template x-for="item in filtered" :key="item.id">
+                                <div @click="select(item)"
+                                    class="px-4 py-2 hover:bg-blue-50 cursor-pointer text-sm border-b border-gray-100 last:border-0"
+                                    x-text="item.label">
+                                </div>
+                            </template>
+                            <div x-show="filtered.length === 0"
+                                class="px-4 py-2 text-gray-400 text-sm text-center">
+                                Sin resultados
+                            </div>
+                        </div>
+                    </div>
                     @error('empleado_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Dispositivo</label>
-                    <select wire:model="dispositivo_id" class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        <option value="">Seleccionar dispositivo...</option>
-                        @foreach ($dispositivos as $dispositivo)
-                            <option value="{{ $dispositivo->id }}">{{ $dispositivo->marca }} {{ $dispositivo->modelo }} ({{ $dispositivo->numero_serie }})</option>
-                        @endforeach
-                    </select>
+                    <div x-data="{
+                        open: false,
+                        query: '',
+                        items: {{ $dispositivos->map(fn($d) => ['id' => (string)$d->id, 'label' => $d->marca.' '.$d->modelo.' ('.$d->numero_serie.')'])->toJson() }},
+                        get filtered() {
+                            if (!this.query) return this.items;
+                            return this.items.filter(i => i.label.toLowerCase().includes(this.query.toLowerCase()));
+                        },
+                        select(item) {
+                            $wire.set('dispositivo_id', item.id);
+                            this.query = item.label;
+                            this.open = false;
+                        }
+                    }" class="relative">
+                        <input type="text" x-model="query" @focus="open = true" @click.outside="open = false"
+                            placeholder="Buscar dispositivo..."
+                            class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <input type="hidden" wire:model="dispositivo_id">
+                        <div x-show="open" x-cloak
+                            class="absolute z-10 mt-1 w-full bg-white border rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                            <template x-for="item in filtered" :key="item.id">
+                                <div @click="select(item)"
+                                    class="px-4 py-2 hover:bg-blue-50 cursor-pointer text-sm border-b border-gray-100 last:border-0"
+                                    x-text="item.label">
+                                </div>
+                            </template>
+                            <div x-show="filtered.length === 0"
+                                class="px-4 py-2 text-gray-400 text-sm text-center">
+                                Sin resultados
+                            </div>
+                        </div>
+                    </div>
                     @error('dispositivo_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
 
