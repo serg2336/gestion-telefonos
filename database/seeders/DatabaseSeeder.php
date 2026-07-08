@@ -43,5 +43,49 @@ class DatabaseSeeder extends Seeder
                 $dispositivo->update(['estado' => 'asignado']);
             }
         }
+
+        $this->garantizarAsignacionesUsuarioDemo();
+    }
+
+    private function garantizarAsignacionesUsuarioDemo()
+    {
+        $user = \App\Models\User::where('email', 'usuario@empresa.com')->first();
+        if (!$user || !$user->empleado) return;
+
+        $empleado = $user->empleado;
+
+        $tieneActiva = $empleado->asignaciones()->whereIn('estado', ['activo', 'pendiente_devolver'])->exists();
+        $tieneDevuelta = $empleado->asignaciones()->where('estado', 'devuelto')->exists();
+
+        if (!$tieneDevuelta) {
+            $dispositivo = \App\Models\Dispositivo::where('estado', 'disponible')->inRandomOrder()->first();
+            if ($dispositivo) {
+                $fecha = now()->subDays(rand(60, 120));
+                \App\Models\Asignacion::create([
+                    'empleado_id' => $empleado->id,
+                    'dispositivo_id' => $dispositivo->id,
+                    'fecha_asignacion' => $fecha,
+                    'fecha_devolucion' => $fecha->copy()->addDays(rand(15, 45)),
+                    'estado' => 'devuelto',
+                    'observaciones' => 'Dispositivo devuelto en buen estado',
+                ]);
+                $dispositivo->update(['estado' => 'disponible']);
+            }
+        }
+
+        if (!$tieneActiva) {
+            $dispositivo = \App\Models\Dispositivo::where('estado', 'disponible')->inRandomOrder()->first();
+            if ($dispositivo) {
+                \App\Models\Asignacion::create([
+                    'empleado_id' => $empleado->id,
+                    'dispositivo_id' => $dispositivo->id,
+                    'fecha_asignacion' => now()->subDays(rand(1, 30)),
+                    'fecha_devolucion' => null,
+                    'estado' => 'activo',
+                    'observaciones' => 'Asignado para uso diario',
+                ]);
+                $dispositivo->update(['estado' => 'asignado']);
+            }
+        }
     }
 }
